@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOTIX 洛钛克斯 — 全球领先的数字资产交易平台</title>
+  <meta name="description" content="LOTIX 是全球领先的数字资产交易平台，提供安全、专业、便捷的比特币、以太坊等加密货币现货与合约交易服务。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2343E9E8'/%3E%3Cstop offset='1' stop-color='%232A6BF0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='20,28 44,20 44,70 20,78' fill='url(%23g)'/%3E%3Cpath d='M16,94 L38,72 L52,82 L96,32' stroke='%2349EDE8' stroke-width='11' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpolygon points='88,18 114,12 108,38' fill='%2349EDE8'/%3E%3Cpolygon points='16,98 58,98 46,112 12,112' fill='url(%23g)'/%3E%3Cpolygon points='62,86 92,104 92,118 58,100' fill='%2337D8E8'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- 公告条 -->
+  <div class="announce-bar">
+    <div class="container announce-inner">
+      <span class="announce-dot"></span>
+      <p class="announce-text">公告：LOTIX 已完成第 12 次储备金证明（PoR）审计，用户资产储备率达 102%，保障每一笔资金安全。</p>
+      <a href="#security" class="announce-link">了解更多 &rarr;</a>
+    </div>
+  </div>
+
+  <!-- 导航栏 -->
+  <header class="header" id="header">
+    <div class="container nav-inner">
+      <a href="#" class="logo" aria-label="LOTIX 首页">
+        <svg class="logo-mark" viewBox="0 0 128 128" width="38" height="38" aria-hidden="true">
+          <defs>
+            <linearGradient id="logoGradA" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#43E9E8"/><stop offset="1" stop-color="#2A6BF0"/>
+            </linearGradient>
+            <linearGradient id="logoGradB" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#6FF5F0"/><stop offset="1" stop-color="#2FD9E2"/>
+            </linearGradient>
+          </defs>
+          <polygon points="20,28 44,20 44,70 20,78" fill="url(#logoGradA)"/>
+          <path d="M16,94 L38,72 L52,82 L96,32" stroke="url(#logoGradB)" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <polygon points="88,18 114,12 108,38" fill="#49EDE8"/>
+          <polygon points="16,98 58,98 46,112 12,112" fill="url(#logoGradA)"/>
+          <polygon points="62,86 92,104 92,118 58,100" fill="url(#logoGradB)"/>
+          <polygon points="70,62 98,78 98,92 66,74" fill="url(#logoGradB)" opacity="0.85"/>
+        </svg>
+        <span class="logo-text">LOTI<em>X</em></span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#markets" class="nav-link">行情</a>
+        <a href="#features" class="nav-link">服务</a>
+        <a href="#start" class="nav-link">新手指南</a>
+        <a href="#security" class="nav-link">安全保障</a>
+        <a href="#app" class="nav-link">下载 App</a>
+        <a href="#footer" class="nav-link">关于我们</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-ghost" type="button">登录</button>
+        <button class="btn btn-primary" type="button">注册</button>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#markets" class="mobile-link">行情</a>
+    <a href="#features" class="mobile-link">服务</a>
+    <a href="#start" class="mobile-link">新手指南</a>
+    <a href="#security" class="mobile-link">安全保障</a>
+    <a href="#app" class="mobile-link">下载 App</a>
+    <a href="#footer" class="mobile-link">关于我们</a>
+    <div class="mobile-actions">
+      <button class="btn btn-ghost" type="button">登录</button>
+      <button class="btn btn-primary" type="button">立即注册</button>
+    </div>
+  </div>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-glow hero-glow-1"></div>
+      <div class="hero-glow hero-glow-2"></div>
+      <div class="hero-grid-bg" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="hero-copy reveal">
+          <div class="hero-badge">
+            <span class="badge-live"></span>
+            全球 180+ 国家和地区 · 2.4 亿用户的共同选择
+          </div>
+          <h1 class="hero-title">
+            把握趋势<br />
+            <span class="text-gradient">领跑数字资产交易</span>
+          </h1>
+          <p class="hero-desc">
+            LOTIX 洛钛克斯为全球用户提供比特币、以太坊等 350+ 加密货币的现货、合约交易服务，
+            银行级安全防护、顶级交易深度与 7&times;24 小时中文客服，让每一笔交易都安心高效。
+          </p>
+          <div class="hero-cta">
+            <button class="btn btn-primary btn-lg" type="button">立即开始交易</button>
+            <button class="btn btn-outline btn-lg" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+              观看介绍
+            </button>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong class="count-up" data-target="2.4" data-decimals="1" data-suffix=" 亿">0</strong>
+              <span>注册用户</span>
+            </div>
+            <div class="hero-stat">
+              <strong class="count-up" data-target="760" data-decimals="0" data-suffix=" 亿$">0</strong>
+              <span>24h 成交额</span>
+            </div>
+            <div class="hero-stat">
+              <strong class="count-up" data-target="350" data-decimals="0" data-suffix="+">0</strong>
+              <span>上线币种</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero 交易卡片 -->
+        <div class="hero-card reveal">
+          <div class="ticker-card">
+            <div class="ticker-head">
+              <div class="ticker-coin">
+                <span class="coin-icon coin-btc">₿</span>
+                <div>
+                  <strong>BTC/USDT</strong>
+                  <small>比特币</small>
+                </div>
+              </div>
+              <span class="ticker-tag">现货</span>
+            </div>
+            <div class="ticker-price">
+              <span id="heroPrice">$67,238.50</span>
+              <span class="ticker-change up" id="heroChange">+2.34%</span>
+            </div>
+            <canvas id="heroChart" width="420" height="160" aria-label="BTC 价格走势图"></canvas>
+            <div class="ticker-foot">
+              <div><small>24h 最高</small><strong id="heroHigh">$68,120.00</strong></div>
+              <div><small>24h 最低</small><strong id="heroLow">$65,840.00</strong></div>
+              <div><small>24h 量</small><strong>28,492 BTC</strong></div>
+            </div>
+            <button class="btn btn-primary btn-block" type="button">立即交易 BTC</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 滚动行情条 -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marqueeTrack"></div>
+    </div>
+
+    <!-- 热门行情 -->
+    <section class="section" id="markets">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2 class="section-title">热门市场行情</h2>
+            <p class="section-sub">实时追踪主流加密货币价格，把握每一个交易机会</p>
+          </div>
+          <a href="#" class="section-more">查看全部市场 &rarr;</a>
+        </div>
+
+        <div class="market-table reveal">
+          <div class="market-row market-row-head">
+            <span class="col-coin">币种</span>
+            <span class="col-price">最新价格</span>
+            <span class="col-change">24h 涨跌</span>
+            <span class="col-high">24h 最高</span>
+            <span class="col-action">操作</span>
+          </div>
+          <div id="marketRows"><!-- JS 渲染 --></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 核心服务 -->
+    <section class="section section-alt" id="features">
+      <div class="container">
+        <div class="section-head section-head-center reveal">
+          <div>
+            <h2 class="section-title">一站式数字资产服务</h2>
+            <p class="section-sub">从现货到合约，从理财到支付，LOTIX 满足你对加密世界的全部需求</p>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3>银行级安全保障</h3>
+            <p>冷热钱包分离、多重签名与 SAFU 投资者保护基金，102% 储备金证明每月公开审计，资产安全可查可验。</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            </div>
+            <h3>极致交易深度</h3>
+            <p>聚合全球顶级做市商流动性，撮合引擎每秒处理 140 万笔订单，大额交易依然滑点极低、成交极速。</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9.5a3 3 0 0 0-3-1.5c-1.7 0-3 .9-3 2.2 0 3 6.5 1.6 6.5 4.6 0 1.3-1.5 2.2-3.5 2.2a3.2 3.2 0 0 1-3.3-2"/></svg>
+            </div>
+            <h3>行业最低手续费</h3>
+            <p>现货交易手续费低至 0.1%，使用平台币抵扣再享 25% 折扣；VIP 等级越高费率越优，maker 挂单甚至零费率。</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
+            </div>
+            <h3>7&times;24 中文客服</h3>
+            <p>全天候在线中文支持，平均响应时间小于 30 秒；新手学院、跟单与网格工具帮你快速上手专业交易。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 三步开始 -->
+    <section class="section" id="start">
+      <div class="container">
+        <div class="section-head section-head-center reveal">
+          <div>
+            <h2 class="section-title">三分钟，开启交易之旅</h2>
+            <p class="section-sub">注册即送新手礼包，简单三步即可买卖比特币</p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="step-item reveal">
+            <div class="step-num">01</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3>注册账户</h3>
+            <p>使用邮箱或手机号 30 秒完成注册，完成实名认证即可解锁全部功能。</p>
+          </div>
+          <div class="step-arrow reveal" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <div class="step-item reveal">
+            <div class="step-num">02</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
+            </div>
+            <h3>充值资金</h3>
+            <p>支持银行卡、C2C 买币与链上充值，多种法币渠道实时到账。</p>
+          </div>
+          <div class="step-arrow reveal" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <div class="step-item reveal">
+            <div class="step-num">03</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></svg>
+            </div>
+            <h3>开始交易</h3>
+            <p>现货、合约、理财任你选择，随时随地在网页与 App 端下单交易。</p>
+          </div>
+        </div>
+
+        <div class="start-cta reveal">
+          <button class="btn btn-primary btn-lg" type="button">免费注册，领取 100 USDT 礼包</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 安全保障 -->
+    <section class="section section-alt" id="security">
+      <div class="container security-inner">
+        <div class="security-copy reveal">
+          <div class="section-tag">安全第一</div>
+          <h2 class="section-title">为你的资产<br />构建铜墙铁壁</h2>
+          <p class="section-sub">我们以金融机构级标准构建安全体系，让 2.4 亿用户的每一笔资产都得到妥善守护。</p>
+          <ul class="security-list">
+            <li>
+              <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <div><strong>冷热钱包分离架构</strong><p>98% 资产存储于离线冷钱包，多重签名授权方可动用。</p></div>
+            </li>
+            <li>
+              <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <div><strong>储备金证明（PoR）</strong><p>每月由顶级审计机构以 Merkle Tree 验证，储备率公开透明。</p></div>
+            </li>
+            <li>
+              <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <div><strong>SAFU 投资者保护基金</strong><p>设立 10 亿美元紧急安全基金，极端情况下全额赔付用户资产。</p></div>
+            </li>
+            <li>
+              <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <div><strong>全链路风控系统</strong><p>设备管理、反钓鱼码、提现白名单与 AI 实时异常监测。</p></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="security-visual reveal">
+          <div class="shield-ring ring-1"></div>
+          <div class="shield-ring ring-2"></div>
+          <div class="shield-core">
+            <svg viewBox="0 0 128 128" aria-hidden="true">
+              <defs>
+                <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#43E9E8"/><stop offset="1" stop-color="#2A6BF0"/>
+                </linearGradient>
+              </defs>
+              <polygon points="20,28 44,20 44,70 20,78" fill="url(#shieldGrad)"/>
+              <path d="M16,94 L38,72 L52,82 L96,32" stroke="#49EDE8" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="88,18 114,12 108,38" fill="#49EDE8"/>
+              <polygon points="16,98 58,98 46,112 12,112" fill="url(#shieldGrad)"/>
+              <polygon points="62,86 92,104 92,118 58,100" fill="#37D8E8"/>
+            </svg>
+          </div>
+          <div class="float-chip chip-1">
+            <span class="chip-dot ok"></span>冷钱包 98%
+          </div>
+          <div class="float-chip chip-2">
+            <span class="chip-dot ok"></span>储备率 102%
+          </div>
+          <div class="float-chip chip-3">
+            <span class="chip-dot warn"></span>AI 风控监测中
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 下载 App -->
+    <section class="section" id="app">
+      <div class="container">
+        <div class="app-banner reveal">
+          <div class="app-copy">
+            <h2>随时随地，交易尽在掌握</h2>
+            <p>下载 LOTIX App，享受移动端极致交易体验：价格提醒、一键跟单、指纹登录，让盈利机会不再错过。</p>
+            <div class="app-btns">
+              <button class="btn btn-dark btn-lg" type="button">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                <span><small>下载于</small>App Store</span>
+              </button>
+              <button class="btn btn-dark btn-lg" type="button">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3c-.3.3-.5.8-.5 1.4v16.6c0 .6.2 1.1.5 1.4l.1.1L13 12.1v-.2L3.7 2.2l-.1.1zM16.3 15.4l-3.2-3.2v-.2l3.2-3.2.1.1 3.8 2.2c1.1.6 1.1 1.6 0 2.3l-3.8 2.2-.1-.2zM15.4 16.4l-3.3-3.3L3.9 21.3c.4.4 1 .4 1.7.1l9.8-5zM15.4 7.6 5.6 2.6c-.7-.4-1.3-.3-1.7.1l8.2 8.2 3.3-3.3z"/></svg>
+                <span><small>下载于</small>Google Play</span>
+              </button>
+            </div>
+            <div class="app-rate">
+              <span class="stars">★★★★★</span>
+              <span>4.9 分 · 全球超过 5,000 万次下载</span>
+            </div>
+          </div>
+
+          <div class="app-phone" aria-hidden="true">
+            <div class="phone">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <div class="ph-header">
+                  <span class="ph-logo">LOTI<em>X</em></span>
+                  <span class="ph-bell">◔</span>
+                </div>
+                <div class="ph-balance">
+                  <small>总资产估值 (USDT)</small>
+                  <strong>128,450.32</strong>
+                  <span class="ph-up">+3.86% 今日</span>
+                </div>
+                <div class="ph-chart">
+                  <canvas id="phoneChart" width="240" height="90"></canvas>
+                </div>
+                <div class="ph-rows">
+                  <div class="ph-row"><span class="ph-coin">₿ BTC</span><span>$67,238</span><span class="up">+2.34%</span></div>
+                  <div class="ph-row"><span class="ph-coin">Ξ ETH</span><span>$3,512</span><span class="up">+1.82%</span></div>
+                  <div class="ph-row"><span class="ph-coin">◎ SOL</span><span>$172.4</span><span class="down">-0.94%</span></div>
+                </div>
+                <div class="ph-nav"><span>首页</span><span>行情</span><span class="ph-nav-buy">买币</span><span>合约</span><span>资产</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <svg class="logo-mark" viewBox="0 0 128 128" width="30" height="30" aria-hidden="true">
+              <polygon points="20,28 44,20 44,70 20,78" fill="url(#logoGradA)"/>
+              <path d="M16,94 L38,72 L52,82 L96,32" stroke="url(#logoGradB)" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polygon points="88,18 114,12 108,38" fill="#49EDE8"/>
+              <polygon points="16,98 58,98 46,112 12,112" fill="url(#logoGradA)"/>
+              <polygon points="62,86 92,104 92,118 58,100" fill="url(#logoGradB)"/>
+            </svg>
+            <span class="logo-text">LOTI<em>X</em></span>
+          </a>
+          <p>LOTIX 洛钛克斯 — 全球领先的数字资产交易平台，致力于为用户提供安全、专业、便捷的加密货币交易服务。</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" aria-label="Telegram">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </a>
+            <a href="#" aria-label="Discord">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>产品服务</h4>
+          <a href="#markets">现货交易</a>
+          <a href="#markets">合约交易</a>
+          <a href="#features">理财赚币</a>
+          <a href="#features">跟单交易</a>
+          <a href="#app">移动 App</a>
+        </div>
+        <div class="footer-col">
+          <h4>关于我们</h4>
+          <a href="#">公司简介</a>
+          <a href="#">加入我们</a>
+          <a href="#">新闻中心</a>
+          <a href="#security">合规与安全</a>
+          <a href="#">联系我们</a>
+        </div>
+        <div class="footer-col">
+          <h4>支持与帮助</h4>
+          <a href="#start">新手指南</a>
+          <a href="#">帮助中心</a>
+          <a href="#">费率说明</a>
+          <a href="#">API 文档</a>
+          <a href="#">意见反馈</a>
+        </div>
+        <div class="footer-col">
+          <h4>合规服务</h4>
+          <a href="#">服务条款</a>
+          <a href="#">隐私政策</a>
+          <a href="#">风险提示</a>
+          <a href="#">储备金证明</a>
+          <a href="#">牌照信息</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 LOTIX 洛钛克斯. 本页面为演示项目，不提供真实交易服务。</p>
+        <p>加密资产交易存在较大价格波动风险，请谨慎评估自身风险承受能力。</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

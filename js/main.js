@@ -101,7 +101,7 @@ function renderMarket() {
       </span>
       <span class="col-high mk-high">${fmtPrice(c.high)}</span>
       <span class="col-action">
-        <button class="btn btn-primary" type="button">交易</button>
+        <button class="btn btn-primary" type="button">预约</button>
       </span>
     </div>`
   ).join("");

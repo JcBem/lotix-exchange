@@ -173,6 +173,30 @@ canvas { display: block; max-width: 100%; }
 
 .nav-actions { display: flex; align-items: center; gap: 10px; }
 
+/* 语言切换按钮 */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .04);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  transition: color .2s, border-color .2s, background .2s;
+}
+.lang-switch:hover {
+  color: var(--cyan-bright);
+  border-color: var(--border-strong);
+  background: rgba(47, 227, 224, .08);
+}
+.lang-switch svg { flex-shrink: 0; }
+.mobile-actions .lang-switch-mobile { flex: 0 0 auto; }
+
 .nav-toggle {
   display: none;
   flex-direction: column;

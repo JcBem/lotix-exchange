@@ -17,8 +17,8 @@
   <div class="announce-bar">
     <div class="container announce-inner">
       <span class="announce-dot"></span>
-      <p class="announce-text">LOTIX 平台正在筹备中，预计近期正式上线。现在预约内测，可享早期用户专属权益。</p>
-      <a href="#start" class="announce-link">立即预约 &rarr;</a>
+      <p class="announce-text" data-i18n="announce_text">LOTIX 平台正在筹备中，预计近期正式上线。现在预约内测，可享早期用户专属权益。</p>
+      <a href="#start" class="announce-link" data-i18n="announce_link">立即预约 &rarr;</a>
     </div>
   </div>
 
@@ -46,17 +46,21 @@
       </a>
 
       <nav class="nav-links" id="navLinks">
-        <a href="#markets" class="nav-link">行情</a>
-        <a href="#features" class="nav-link">服务</a>
-        <a href="#start" class="nav-link">新手指南</a>
-        <a href="#security" class="nav-link">安全保障</a>
-        <a href="#app" class="nav-link">App 预约</a>
-        <a href="#footer" class="nav-link">关于我们</a>
+        <a href="#markets" class="nav-link" data-i18n="nav_markets">行情</a>
+        <a href="#features" class="nav-link" data-i18n="nav_features">服务</a>
+        <a href="#start" class="nav-link" data-i18n="nav_guide">新手指南</a>
+        <a href="#security" class="nav-link" data-i18n="nav_security">安全保障</a>
+        <a href="#app" class="nav-link" data-i18n="nav_app">App 预约</a>
+        <a href="#footer" class="nav-link" data-i18n="nav_about">关于我们</a>
       </nav>
 
       <div class="nav-actions">
-        <button class="btn btn-ghost" type="button">联系我们</button>
-        <button class="btn btn-primary" type="button">预约内测</button>
+        <button class="lang-switch" id="langSwitch" type="button" aria-label="Switch language / 切换语言">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span class="lang-label">EN</span>
+        </button>
+        <button class="btn btn-ghost" type="button" data-i18n="nav_contact">联系我们</button>
+        <button class="btn btn-primary" type="button" data-i18n="nav_reserve">预约内测</button>
       </div>
 
       <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false">
@@ -67,15 +71,19 @@
 
   <!-- 移动端菜单 -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#markets" class="mobile-link">行情</a>
-    <a href="#features" class="mobile-link">服务</a>
-    <a href="#start" class="mobile-link">新手指南</a>
-    <a href="#security" class="mobile-link">安全保障</a>
-    <a href="#app" class="mobile-link">App 预约</a>
-    <a href="#footer" class="mobile-link">关于我们</a>
+    <a href="#markets" class="mobile-link" data-i18n="nav_markets">行情</a>
+    <a href="#features" class="mobile-link" data-i18n="nav_features">服务</a>
+    <a href="#start" class="mobile-link" data-i18n="nav_guide">新手指南</a>
+    <a href="#security" class="mobile-link" data-i18n="nav_security">安全保障</a>
+    <a href="#app" class="mobile-link" data-i18n="nav_app">App 预约</a>
+    <a href="#footer" class="mobile-link" data-i18n="nav_about">关于我们</a>
     <div class="mobile-actions">
-      <button class="btn btn-ghost" type="button">联系我们</button>
-      <button class="btn btn-primary" type="button">立即预约内测</button>
+      <button class="lang-switch lang-switch-mobile" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="lang-label">EN</span>
+      </button>
+      <button class="btn btn-ghost" type="button" data-i18n="nav_contact">联系我们</button>
+      <button class="btn btn-primary" type="button" data-i18n="mobile_reserve">立即预约内测</button>
     </div>
   </div>
 
@@ -89,36 +97,36 @@
         <div class="hero-copy reveal">
           <div class="hero-badge">
             <span class="badge-live"></span>
-            全新数字资产交易平台 · 即将上线 · 内测预约已开启
+            <span data-i18n="hero_badge">全新数字资产交易平台 · 即将上线 · 内测预约已开启</span>
           </div>
           <h1 class="hero-title">
-            把握趋势<br />
-            <span class="text-gradient">领跑数字资产交易</span>
+            <span data-i18n="hero_title_1">把握趋势</span><br />
+            <span class="text-gradient" data-i18n="hero_title_2">领跑数字资产交易</span>
           </h1>
-          <p class="hero-desc">
+          <p class="hero-desc" data-i18n="hero_desc">
             LOTIX 洛钛克斯是一家初创数字资产交易平台，正在为正式上线全力筹备。
             未来我们将提供比特币、以太坊等主流加密货币的现货与合约交易服务，
             以银行级安全架构、顶级交易深度与 7&times;24 小时中文客服，打造安心、专业的交易体验。
           </p>
           <div class="hero-cta">
-            <button class="btn btn-primary btn-lg" type="button">预约抢先体验</button>
+            <button class="btn btn-primary btn-lg" type="button" data-i18n="hero_cta_primary">预约抢先体验</button>
             <button class="btn btn-outline btn-lg" type="button">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
-              了解 LOTIX
+              <span data-i18n="hero_cta_secondary">了解 LOTIX</span>
             </button>
           </div>
           <div class="hero-stats">
             <div class="hero-stat">
-              <strong>安全架构</strong>
-              <span>冷热钱包分离 · 储备金证明规划</span>
+              <strong data-i18n="stat_security_t">安全架构</strong>
+              <span data-i18n="stat_security_d">冷热钱包分离 · 储备金证明规划</span>
             </div>
             <div class="hero-stat">
-              <strong>极致性能</strong>
-              <span>每秒 140 万笔撮合引擎</span>
+              <strong data-i18n="stat_perf_t">极致性能</strong>
+              <span data-i18n="stat_perf_d">每秒 140 万笔撮合引擎</span>
             </div>
             <div class="hero-stat">
-              <strong>全球视野</strong>
-              <span>多语种服务 · 合规布局中</span>
+              <strong data-i18n="stat_global_t">全球视野</strong>
+              <span data-i18n="stat_global_d">多语种服务 · 合规布局中</span>
             </div>
           </div>
         </div>
@@ -128,25 +136,25 @@
           <div class="ticker-card">
             <div class="ticker-head">
               <div class="ticker-coin">
-                <span class="coin-icon coin-btc">₿</span>
+                <span class="coin-icon coin-btc">&#8383;</span>
                 <div>
                   <strong>BTC/USDT</strong>
-                  <small>比特币</small>
+                  <small data-i18n="coin_btc">比特币</small>
                 </div>
               </div>
-              <span class="ticker-tag">现货</span>
+              <span class="ticker-tag" data-i18n="ticker_spot">现货</span>
             </div>
             <div class="ticker-price">
               <span id="heroPrice">$67,238.50</span>
               <span class="ticker-change up" id="heroChange">+2.34%</span>
             </div>
-            <canvas id="heroChart" width="420" height="160" aria-label="BTC 价格走势图"></canvas>
+            <canvas id="heroChart" width="420" height="160" data-i18n-label="chart_aria" aria-label="BTC 价格走势图"></canvas>
             <div class="ticker-foot">
-              <div><small>24h 最高</small><strong id="heroHigh">$68,120.00</strong></div>
-              <div><small>24h 最低</small><strong id="heroLow">$65,840.00</strong></div>
-              <div><small>24h 量</small><strong>28,492 BTC</strong></div>
+              <div><small data-i18n="ticker_high">24h 最高</small><strong id="heroHigh">$68,120.00</strong></div>
+              <div><small data-i18n="ticker_low">24h 最低</small><strong id="heroLow">$65,840.00</strong></div>
+              <div><small data-i18n="ticker_vol">24h 量</small><strong>28,492 BTC</strong></div>
             </div>
-            <button class="btn btn-primary btn-block" type="button">预约内测 · 上线优先交易</button>
+            <button class="btn btn-primary btn-block" type="button" data-i18n="ticker_cta">预约内测 · 上线优先交易</button>
           </div>
         </div>
       </div>
@@ -162,19 +170,19 @@
       <div class="container">
         <div class="section-head reveal">
           <div>
-            <h2 class="section-title">热门市场行情</h2>
-            <p class="section-sub">实时追踪主流加密货币价格，把握每一个交易机会</p>
+            <h2 class="section-title" data-i18n="markets_title">热门市场行情</h2>
+            <p class="section-sub" data-i18n="markets_sub">实时追踪主流加密货币价格，把握每一个交易机会</p>
           </div>
-          <a href="#" class="section-more">查看全部市场 &rarr;</a>
+          <a href="#" class="section-more" data-i18n="markets_more">查看全部市场 &rarr;</a>
         </div>
 
         <div class="market-table reveal">
           <div class="market-row market-row-head">
-            <span class="col-coin">币种</span>
-            <span class="col-price">最新价格</span>
-            <span class="col-change">24h 涨跌</span>
-            <span class="col-high">24h 最高</span>
-            <span class="col-action">操作</span>
+            <span class="col-coin" data-i18n="th_coin">币种</span>
+            <span class="col-price" data-i18n="th_price">最新价格</span>
+            <span class="col-change" data-i18n="th_change">24h 涨跌</span>
+            <span class="col-high" data-i18n="th_high">24h 最高</span>
+            <span class="col-action" data-i18n="th_action">操作</span>
           </div>
           <div id="marketRows"><!-- JS 渲染 --></div>
         </div>
@@ -186,8 +194,8 @@
       <div class="container">
         <div class="section-head section-head-center reveal">
           <div>
-            <h2 class="section-title">一站式数字资产服务</h2>
-            <p class="section-sub">从现货到合约，从理财到支付，LOTIX 满足你对加密世界的全部需求</p>
+            <h2 class="section-title" data-i18n="features_title">一站式数字资产服务</h2>
+            <p class="section-sub" data-i18n="features_sub">从现货到合约，从理财到支付，LOTIX 满足你对加密世界的全部需求</p>
           </div>
         </div>
 
@@ -196,32 +204,32 @@
             <div class="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
             </div>
-            <h3>银行级安全保障</h3>
-            <p>规划冷热钱包分离、多重签名与投资者保护基金；上线后将定期公开储备金证明（PoR），资产安全可查可验。</p>
+            <h3 data-i18n="f1_t">银行级安全保障</h3>
+            <p data-i18n="f1_p">规划冷热钱包分离、多重签名与投资者保护基金；上线后将定期公开储备金证明（PoR），资产安全可查可验。</p>
           </article>
 
           <article class="feature-card reveal">
             <div class="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
             </div>
-            <h3>极致交易深度</h3>
-            <p>撮合引擎实测每秒可处理 140 万笔订单；上线后将聚合全球顶级做市商流动性，大额交易也能滑点极低、成交极速。</p>
+            <h3 data-i18n="f2_t">极致交易深度</h3>
+            <p data-i18n="f2_p">撮合引擎实测每秒可处理 140 万笔订单；上线后将聚合全球顶级做市商流动性，大额交易也能滑点极低、成交极速。</p>
           </article>
 
           <article class="feature-card reveal">
             <div class="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9.5a3 3 0 0 0-3-1.5c-1.7 0-3 .9-3 2.2 0 3 6.5 1.6 6.5 4.6 0 1.3-1.5 2.2-3.5 2.2a3.2 3.2 0 0 1-3.3-2"/></svg>
             </div>
-            <h3>极具竞争力费率</h3>
-            <p>现货手续费将低至 0.1%，平台币抵扣再享折扣；VIP 等级越高费率越优，maker 挂单有望享受零费率。</p>
+            <h3 data-i18n="f3_t">极具竞争力费率</h3>
+            <p data-i18n="f3_p">现货手续费将低至 0.1%，平台币抵扣再享折扣；VIP 等级越高费率越优，maker 挂单有望享受零费率。</p>
           </article>
 
           <article class="feature-card reveal">
             <div class="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
             </div>
-            <h3>7&times;24 中文客服</h3>
-            <p>上线后提供全天候在线中文支持，并配备新手学院、跟单与网格交易工具，帮助每位用户快速上手。</p>
+            <h3 data-i18n="f4_t">7&times;24 多语言客服</h3>
+            <p data-i18n="f4_p">上线后提供全天候在线支持，并配备新手学院、跟单与网格交易工具，帮助每位用户快速上手。</p>
           </article>
         </div>
       </div>
@@ -232,8 +240,8 @@
       <div class="container">
         <div class="section-head section-head-center reveal">
           <div>
-            <h2 class="section-title">现在预约，上线快人一步</h2>
-            <p class="section-sub">平台即将上线，留下邮箱加入候补名单，上线后简单三步即可买卖比特币</p>
+            <h2 class="section-title" data-i18n="start_title">现在预约，上线快人一步</h2>
+            <p class="section-sub" data-i18n="start_sub">平台即将上线，留下邮箱加入候补名单，上线后简单三步即可买卖比特币</p>
           </div>
         </div>
 
@@ -243,8 +251,8 @@
             <div class="step-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
-            <h3>预约登记</h3>
-            <p>留下你的邮箱或手机号，加入 LOTIX 早期用户候补名单，上线第一时间通知你。</p>
+            <h3 data-i18n="step1_t">预约登记</h3>
+            <p data-i18n="step1_p">留下你的邮箱或手机号，加入 LOTIX 早期用户候补名单，上线第一时间通知你。</p>
           </div>
           <div class="step-arrow reveal" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -254,8 +262,8 @@
             <div class="step-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
             </div>
-            <h3>账户开通</h3>
-            <p>平台上线后，凭预约信息 30 秒完成注册与实名认证，即可解锁全部功能。</p>
+            <h3 data-i18n="step2_t">账户开通</h3>
+            <p data-i18n="step2_p">平台上线后，凭预约信息 30 秒完成注册与实名认证，即可解锁全部功能。</p>
           </div>
           <div class="step-arrow reveal" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -265,13 +273,13 @@
             <div class="step-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></svg>
             </div>
-            <h3>开始交易</h3>
-            <p>充值资金后，现货、合约、理财任你选择，随时随地在网页与 App 端下单交易。</p>
+            <h3 data-i18n="step3_t">开始交易</h3>
+            <p data-i18n="step3_p">充值资金后，现货、合约、理财任你选择，随时随地在网页与 App 端下单交易。</p>
           </div>
         </div>
 
         <div class="start-cta reveal">
-          <button class="btn btn-primary btn-lg" type="button">加入候补名单，锁定早期用户权益</button>
+          <button class="btn btn-primary btn-lg" type="button" data-i18n="start_cta">加入候补名单，锁定早期用户权益</button>
         </div>
       </div>
     </section>
@@ -280,25 +288,25 @@
     <section class="section section-alt" id="security">
       <div class="container security-inner">
         <div class="security-copy reveal">
-          <div class="section-tag">安全第一</div>
-          <h2 class="section-title">为你的资产<br />构建铜墙铁壁</h2>
-          <p class="section-sub">我们正以金融机构级标准构建安全体系，致力于让未来每一位用户的资产都得到妥善守护。</p>
+          <div class="section-tag" data-i18n="security_tag">安全第一</div>
+          <h2 class="section-title"><span data-i18n="security_title_1">为你的资产</span><br /><span data-i18n="security_title_2">构建铜墙铁壁</span></h2>
+          <p class="section-sub" data-i18n="security_sub">我们正以金融机构级标准构建安全体系，致力于让未来每一位用户的资产都得到妥善守护。</p>
           <ul class="security-list">
             <li>
               <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-              <div><strong>冷热钱包分离架构</strong><p>规划 98% 资产存储于离线冷钱包，动用需多重签名授权。</p></div>
+              <div><strong data-i18n="sec1_t">冷热钱包分离架构</strong><p data-i18n="sec1_p">规划 98% 资产存储于离线冷钱包，动用需多重签名授权。</p></div>
             </li>
             <li>
               <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-              <div><strong>储备金证明（PoR）</strong><p>上线后每月由顶级审计机构以 Merkle Tree 验证，储备率公开透明。</p></div>
+              <div><strong data-i18n="sec2_t">储备金证明（PoR）</strong><p data-i18n="sec2_p">上线后每月由顶级审计机构以 Merkle Tree 验证，储备率公开透明。</p></div>
             </li>
             <li>
               <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-              <div><strong>投资者保护基金规划</strong><p>规划设立 SAFU 级紧急安全基金，为极端情况下的用户资产提供保障。</p></div>
+              <div><strong data-i18n="sec3_t">投资者保护基金规划</strong><p data-i18n="sec3_p">规划设立 SAFU 级紧急安全基金，为极端情况下的用户资产提供保障。</p></div>
             </li>
             <li>
               <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-              <div><strong>全链路风控系统</strong><p>设备管理、反钓鱼码、提现白名单与 AI 异常监测，正在研发测试中。</p></div>
+              <div><strong data-i18n="sec4_t">全链路风控系统</strong><p data-i18n="sec4_p">设备管理、反钓鱼码、提现白名单与 AI 异常监测，正在研发测试中。</p></div>
             </li>
           </ul>
         </div>
@@ -321,13 +329,13 @@
             </svg>
           </div>
           <div class="float-chip chip-1">
-            <span class="chip-dot ok"></span>冷钱包 98% 规划
+            <span class="chip-dot ok"></span><span data-i18n="chip1">冷钱包 98% 规划</span>
           </div>
           <div class="float-chip chip-2">
-            <span class="chip-dot ok"></span>PoR 月度公开
+            <span class="chip-dot ok"></span><span data-i18n="chip2">PoR 月度公开</span>
           </div>
           <div class="float-chip chip-3">
-            <span class="chip-dot warn"></span>安全体系建设中
+            <span class="chip-dot warn"></span><span data-i18n="chip3">安全体系建设中</span>
           </div>
         </div>
       </div>
@@ -338,21 +346,21 @@
       <div class="container">
         <div class="app-banner reveal">
           <div class="app-copy">
-            <h2>随时随地，交易尽在掌握</h2>
-            <p>LOTIX App 正与网页端同步开发中。现在预约上线提醒，上线第一时间体验移动端交易：价格提醒、一键跟单、指纹登录，让盈利机会不再错过。</p>
+            <h2 data-i18n="app_title">随时随地，交易尽在掌握</h2>
+            <p data-i18n="app_sub">LOTIX App 正与网页端同步开发中。现在预约上线提醒，上线第一时间体验移动端交易：价格提醒、一键跟单、指纹登录，让盈利机会不再错过。</p>
             <div class="app-btns">
               <button class="btn btn-dark btn-lg" type="button">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-                <span><small>即将上线 · 预约通知</small>App Store 预约</span>
+                <span><small data-i18n="app_btn_small">即将上线 · 预约通知</small><span data-i18n="app_btn_ios">App Store 预约</span></span>
               </button>
               <button class="btn btn-dark btn-lg" type="button">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3c-.3.3-.5.8-.5 1.4v16.6c0 .6.2 1.1.5 1.4l.1.1L13 12.1v-.2L3.7 2.2l-.1.1zM16.3 15.4l-3.2-3.2v-.2l3.2-3.2.1.1 3.8 2.2c1.1.6 1.1 1.6 0 2.3l-3.8 2.2-.1-.2zM15.4 16.4l-3.3-3.3L3.9 21.3c.4.4 1 .4 1.7.1l9.8-5zM15.4 7.6 5.6 2.6c-.7-.4-1.3-.3-1.7.1l8.2 8.2 3.3-3.3z"/></svg>
-                <span><small>即将上线 · 预约通知</small>Google Play 预约</span>
+                <span><small data-i18n="app_btn_small2">即将上线 · 预约通知</small><span data-i18n="app_btn_gp">Google Play 预约</span></span>
               </button>
             </div>
             <div class="app-rate">
-              <span class="stars">●</span>
-              <span>iOS / Android 双端同步开发中，预约用户将优先获得内测邀请</span>
+              <span class="stars">&#9679;</span>
+              <span data-i18n="app_rate">iOS / Android 双端同步开发中，预约用户将优先获得内测邀请</span>
             </div>
           </div>
 
@@ -362,22 +370,28 @@
               <div class="phone-screen">
                 <div class="ph-header">
                   <span class="ph-logo">LOTI<em>X</em></span>
-                  <span class="ph-bell">◔</span>
+                  <span class="ph-bell">&#9684;</span>
                 </div>
                 <div class="ph-balance">
-                  <small>总资产估值 (USDT)</small>
+                  <small data-i18n="ph_balance">总资产估值 (USDT)</small>
                   <strong>128,450.32</strong>
-                  <span class="ph-up">+3.86% 今日</span>
+                  <span class="ph-up"><span data-i18n="ph_today">+3.86% 今日</span></span>
                 </div>
                 <div class="ph-chart">
                   <canvas id="phoneChart" width="240" height="90"></canvas>
                 </div>
                 <div class="ph-rows">
-                  <div class="ph-row"><span class="ph-coin">₿ BTC</span><span>$67,238</span><span class="up">+2.34%</span></div>
-                  <div class="ph-row"><span class="ph-coin">Ξ ETH</span><span>$3,512</span><span class="up">+1.82%</span></div>
-                  <div class="ph-row"><span class="ph-coin">◎ SOL</span><span>$172.4</span><span class="down">-0.94%</span></div>
+                  <div class="ph-row"><span class="ph-coin">&#8383; BTC</span><span>$67,238</span><span class="up">+2.34%</span></div>
+                  <div class="ph-row"><span class="ph-coin">&Xi; ETH</span><span>$3,512</span><span class="up">+1.82%</span></div>
+                  <div class="ph-row"><span class="ph-coin">&#9678; SOL</span><span>$172.4</span><span class="down">-0.94%</span></div>
                 </div>
-                <div class="ph-nav"><span>首页</span><span>行情</span><span class="ph-nav-buy">买币</span><span>合约</span><span>资产</span></div>
+                <div class="ph-nav">
+                  <span data-i18n="ph_nav_home">首页</span>
+                  <span data-i18n="ph_nav_markets">行情</span>
+                  <span class="ph-nav-buy" data-i18n="ph_nav_buy">买币</span>
+                  <span data-i18n="ph_nav_futures">合约</span>
+                  <span data-i18n="ph_nav_assets">资产</span>
+                </div>
               </div>
             </div>
           </div>
@@ -401,7 +415,7 @@
             </svg>
             <span class="logo-text">LOTI<em>X</em></span>
           </a>
-          <p>LOTIX 洛钛克斯是一家初创数字资产交易平台，目前正处于筹备阶段。我们致力于为全球用户打造安全、专业、便捷的加密货币交易服务，平台即将上线，敬请期待。</p>
+          <p data-i18n="footer_about">LOTIX 洛钛克斯是一家初创数字资产交易平台，目前正处于筹备阶段。我们致力于为全球用户打造安全、专业、便捷的加密货币交易服务，平台即将上线，敬请期待。</p>
           <div class="footer-social">
             <a href="#" aria-label="Twitter / X">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -416,42 +430,42 @@
         </div>
 
         <div class="footer-col">
-          <h4>产品服务</h4>
-          <a href="#markets">现货交易</a>
-          <a href="#markets">合约交易</a>
-          <a href="#features">理财赚币</a>
-          <a href="#features">跟单交易</a>
-          <a href="#app">移动 App</a>
+          <h4 data-i18n="fcol_product">产品服务</h4>
+          <a href="#markets" data-i18n="f_spot">现货交易</a>
+          <a href="#markets" data-i18n="f_futures">合约交易</a>
+          <a href="#features" data-i18n="f_earn">理财赚币</a>
+          <a href="#features" data-i18n="f_copy">跟单交易</a>
+          <a href="#app" data-i18n="f_app">移动 App</a>
         </div>
         <div class="footer-col">
-          <h4>关于我们</h4>
-          <a href="#">公司简介</a>
-          <a href="#">加入我们</a>
-          <a href="#">新闻中心</a>
-          <a href="#security">合规与安全</a>
-          <a href="#">联系我们</a>
+          <h4 data-i18n="fcol_about">关于我们</h4>
+          <a href="#" data-i18n="f_company">公司简介</a>
+          <a href="#" data-i18n="f_careers">加入我们</a>
+          <a href="#" data-i18n="f_news">新闻中心</a>
+          <a href="#security" data-i18n="f_compliance">合规与安全</a>
+          <a href="#" data-i18n="f_contact">联系我们</a>
         </div>
         <div class="footer-col">
-          <h4>支持与帮助</h4>
-          <a href="#start">新手指南</a>
-          <a href="#">帮助中心</a>
-          <a href="#">费率说明</a>
-          <a href="#">API 文档</a>
-          <a href="#">意见反馈</a>
+          <h4 data-i18n="fcol_support">支持与帮助</h4>
+          <a href="#start" data-i18n="f_guide">新手指南</a>
+          <a href="#" data-i18n="f_help">帮助中心</a>
+          <a href="#" data-i18n="f_fees">费率说明</a>
+          <a href="#" data-i18n="f_api">API 文档</a>
+          <a href="#" data-i18n="f_feedback">意见反馈</a>
         </div>
         <div class="footer-col">
-          <h4>合规服务</h4>
-          <a href="#">服务条款</a>
-          <a href="#">隐私政策</a>
-          <a href="#">风险提示</a>
-          <a href="#">储备金证明</a>
-          <a href="#">牌照信息</a>
+          <h4 data-i18n="fcol_legal">合规服务</h4>
+          <a href="#" data-i18n="f_terms">服务条款</a>
+          <a href="#" data-i18n="f_privacy">隐私政策</a>
+          <a href="#" data-i18n="f_risk">风险提示</a>
+          <a href="#" data-i18n="f_por">储备金证明</a>
+          <a href="#" data-i18n="f_license">牌照信息</a>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 LOTIX 洛钛克斯. 平台正在筹备中，暂未开放任何交易与注册服务，页面数据仅为界面演示。</p>
-        <p>加密资产交易存在较大价格波动风险，正式上线后请谨慎评估自身风险承受能力。</p>
+        <p data-i18n="footer_copy1">&copy; 2026 LOTIX 洛钛克斯. 平台正在筹备中，暂未开放任何交易与注册服务，页面数据仅为界面演示。</p>
+        <p data-i18n="footer_copy2">加密资产交易存在较大价格波动风险，正式上线后请谨慎评估自身风险承受能力。</p>
       </div>
     </div>
   </footer>

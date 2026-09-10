@@ -1977,11 +1977,20 @@ function applyLang() {
   try { localStorage.setItem("lotix_lang", currentLang); } catch (e) {}
 }
 
+// 交易所式自适应精度：价格越大小数越少，低价币保留足够位数，避免舍入误差
+function priceDecimals(p) {
+  if (p >= 1000) return 2;
+  if (p >= 1) return 3;
+  if (p >= 0.1) return 4;
+  if (p >= 0.01) return 5;
+  return 6;
+}
 const fmtPrice = (p) => {
   if (p == null || Number.isNaN(p)) return "—";
-  return p >= 1000
-    ? "$" + p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-    : "$" + p.toFixed(p >= 1 ? 2 : 4);
+  const d = priceDecimals(p);
+  return p >= 1
+    ? "$" + p.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d })
+    : "$" + p.toFixed(d);
 };
 
 // 24h 成交量（基础币数量）
@@ -2284,17 +2293,7 @@ async function refreshTickers() {
 refreshTickers();
 setInterval(refreshTickers, 10000);
 
-// ---------- Canvas 走势图 ----------
-function buildPoints(base, volatility, trend, n) {
-  const pts = [];
-  let v = base;
-  for (let i = 0; i < n; i++) {
-    v += (Math.random() - 0.5) * volatility + trend;
-    pts.push(v);
-  }
-  return pts;
-}
-
+// ---------- Canvas 走势图（仅绘制真实 K 线数据） ----------
 function drawChart(canvas, points, colorUp, colorDown) {
   const ctx = canvas.getContext("2d");
   const dpr = window.devicePixelRatio || 1;
@@ -2304,6 +2303,15 @@ function drawChart(canvas, points, colorUp, colorDown) {
   canvas.height = h * dpr;
   ctx.scale(dpr, dpr);
   ctx.clearRect(0, 0, w, h);
+
+  // 数据未到达时只显示加载提示，绝不绘制虚构曲线
+  if (!points || points.length < 2) {
+    ctx.fillStyle = "rgba(168,176,194,.55)";
+    ctx.font = "12px Inter, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(currentLang === "zh" ? "K 线加载中…" : "Loading chart…", w / 2, h / 2);
+    return;
+  }
 
   const min = Math.min(...points);
   const max = Math.max(...points);
@@ -2342,8 +2350,8 @@ function drawChart(canvas, points, colorUp, colorDown) {
   ctx.fill();
 }
 
-// Hero BTC 图表（先绘制占位曲线，真实 K 线到达后整体替换）
-let heroPts = buildPoints(67000, 900, 60, 40);
+// Hero BTC 图表（仅在真实 K 线到达后绘制）
+let heroPts = [];
 const heroCanvas = document.getElementById("heroChart");
 function drawHero() {
   drawChart(heroCanvas, heroPts, "#2FE3E0", "#EA3943");
@@ -2352,7 +2360,7 @@ drawHero();
 window.addEventListener("resize", drawHero);
 
 // 手机模型小图表（ETH 1h K 线）
-let phonePts = buildPoints(3500, 45, 3, 28);
+let phonePts = [];
 const phoneCanvas = document.getElementById("phoneChart");
 function drawPhone() {
   drawChart(phoneCanvas, phonePts, "#2FE3E0", "#EA3943");
@@ -2365,16 +2373,131 @@ async function refreshCharts() {
   const btc = await fetchCloses("BTC", "1h", 40);
   if (btc && btc.length) {
     heroPts = btc;
+    klineIds.BTC = null;
     drawHero();
   }
   const eth = await fetchCloses("ETH", "1h", 28);
   if (eth && eth.length) {
     phonePts = eth;
+    klineIds.ETH = null;
     drawPhone();
   }
 }
 refreshCharts();
 setInterval(refreshCharts, 60000);
+
+/* ============================================================
+   WebSocket 秒级实时推送（Binance 公开行情流）
+   - 8 币种 24hr miniTicker：最新价/开盘价/高低/成交量
+   - BTC、ETH 1h K 线：走势图末端实时跟随
+   - 断开自动重连；不可用时 REST 10s 轮询始终作为兜底
+   ============================================================ */
+let wsLive = null;
+let wsConnected = false;
+let wsRetry = 0;
+let flushPending = false;
+let heroDirty = false;
+let phoneDirty = false;
+const klineIds = { BTC: null, ETH: null };
+
+// 一帧内合并多次推送，避免高频重绘
+function flushLiveUI() {
+  if (flushPending) return;
+  flushPending = true;
+  requestAnimationFrame(() => {
+    flushPending = false;
+    renderMarket();
+    renderMarquee();
+    const btc = COINS.find((c) => c.sym === "BTC");
+    if (btc && btc.price != null) applyHero(btc);
+    applyPhoneRows();
+    if (heroDirty) { drawHero(); heroDirty = false; }
+    if (phoneDirty) { drawPhone(); phoneDirty = false; }
+  });
+}
+
+function handleMiniTicker(d) {
+  const sym = d.s.replace("USDT", "");
+  const c = COINS.find((x) => x.sym === sym);
+  if (!c) return;
+  const last = parseFloat(d.c);
+  const open = parseFloat(d.o);
+  c.price = last;
+  if (open) c.change = ((last - open) / open) * 100;
+  c.high = parseFloat(d.h);
+  c.low = parseFloat(d.l);
+  c.vol = parseFloat(d.v);
+  if (sym === "BTC" && heroPts.length) { heroPts[heroPts.length - 1] = last; heroDirty = true; }
+  if (sym === "ETH" && phonePts.length) { phonePts[phonePts.length - 1] = last; phoneDirty = true; }
+  flushLiveUI();
+}
+
+function handleKlinePush(sym, k) {
+  const pts = sym === "BTC" ? heroPts : phonePts;
+  if (!pts.length) return;
+  const close = parseFloat(k.c);
+  if (klineIds[sym] === null || k.t === klineIds[sym]) {
+    klineIds[sym] = k.t;
+    pts[pts.length - 1] = close;
+  } else {
+    klineIds[sym] = k.t;
+    pts.push(close);
+    pts.shift();
+  }
+  if (sym === "BTC") heroDirty = true;
+  else phoneDirty = true;
+  flushLiveUI();
+}
+
+const WS_STREAMS = [
+  ...SYMBOLS.map((s) => s.toLowerCase() + "usdt@miniTicker"),
+  "btcusdt@kline_1h",
+  "ethusdt@kline_1h",
+].join("/");
+const WS_URL = "wss://stream.binance.com:443/stream?streams=" + WS_STREAMS;
+
+function connectWS() {
+  let ws;
+  try {
+    ws = new WebSocket(WS_URL);
+  } catch (e) {
+    scheduleWSRetry();
+    return;
+  }
+  wsLive = ws;
+  const openTimer = setTimeout(() => {
+    if (!wsConnected) { try { ws.close(); } catch (e) {} }
+  }, 8000);
+
+  ws.onopen = () => {
+    clearTimeout(openTimer);
+    wsConnected = true;
+    wsRetry = 0;
+    liveDataSource = "Binance";
+    liveError = false;
+    updateLiveLabel();
+  };
+  ws.onmessage = (ev) => {
+    let msg;
+    try { msg = JSON.parse(ev.data); } catch (e) { return; }
+    const d = msg.data;
+    if (!d) return;
+    if (d.e === "24hrMiniTicker") handleMiniTicker(d);
+    else if (d.e === "kline" && d.k) handleKlinePush(d.s === "BTCUSDT" ? "BTC" : "ETH", d.k);
+  };
+  ws.onerror = () => { /* onclose 会兜底处理 */ };
+  ws.onclose = () => {
+    wsConnected = false;
+    scheduleWSRetry();
+  };
+}
+
+function scheduleWSRetry() {
+  if (wsRetry >= 8) return; // 放弃后由 REST 10s 轮询（含 OKX 容灾）持续供数
+  wsRetry += 1;
+  setTimeout(connectWS, Math.min(3000 * wsRetry, 15000));
+}
+connectWS();
 
   </script>
 </body>

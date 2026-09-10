@@ -1043,6 +1043,37 @@ canvas { display: block; max-width: 100%; }
   color: var(--text);
 }
 
+/* 实时行情数据源标识 */
+.live-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .03);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8a93a6;
+  flex-shrink: 0;
+}
+.live-dot.live {
+  background: #16c784;
+  animation: livePulse 1.8s infinite;
+}
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(22, 199, 132, .55); }
+  70%  { box-shadow: 0 0 0 8px rgba(22, 199, 132, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 199, 132, 0); }
+}
+
 /* ---------------- 响应式 ---------------- */
 @media (max-width: 1024px) {
   .feature-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1235,14 +1266,14 @@ canvas { display: block; max-width: 100%; }
               <span class="ticker-tag" data-i18n="ticker_spot">现货</span>
             </div>
             <div class="ticker-price">
-              <span id="heroPrice">$67,238.50</span>
-              <span class="ticker-change up" id="heroChange">+2.34%</span>
+              <span id="heroPrice">&mdash;</span>
+              <span class="ticker-change" id="heroChange">&mdash;</span>
             </div>
             <canvas id="heroChart" width="420" height="160" data-i18n-label="chart_aria" aria-label="BTC 价格走势图"></canvas>
             <div class="ticker-foot">
-              <div><small data-i18n="ticker_high">24h 最高</small><strong id="heroHigh">$68,120.00</strong></div>
-              <div><small data-i18n="ticker_low">24h 最低</small><strong id="heroLow">$65,840.00</strong></div>
-              <div><small data-i18n="ticker_vol">24h 量</small><strong>28,492 BTC</strong></div>
+              <div><small data-i18n="ticker_high">24h 最高</small><strong id="heroHigh">&mdash;</strong></div>
+              <div><small data-i18n="ticker_low">24h 最低</small><strong id="heroLow">&mdash;</strong></div>
+              <div><small data-i18n="ticker_vol">24h 量</small><strong id="heroVol">&mdash;</strong></div>
             </div>
             <button class="btn btn-primary btn-block" type="button" data-i18n="ticker_cta">预约内测 · 上线优先交易</button>
           </div>
@@ -1262,6 +1293,10 @@ canvas { display: block; max-width: 100%; }
           <div>
             <h2 class="section-title" data-i18n="markets_title">热门市场行情</h2>
             <p class="section-sub" data-i18n="markets_sub">实时追踪主流加密货币价格，把握每一个交易机会</p>
+            <div class="live-source" id="liveSource">
+              <span class="live-dot"></span>
+              <span id="liveSourceText" data-i18n="live_loading">实时行情连接中…</span>
+            </div>
           </div>
           <a href="#" class="section-more" data-i18n="markets_more">查看全部市场 &rarr;</a>
         </div>
@@ -1471,9 +1506,9 @@ canvas { display: block; max-width: 100%; }
                   <canvas id="phoneChart" width="240" height="90"></canvas>
                 </div>
                 <div class="ph-rows">
-                  <div class="ph-row"><span class="ph-coin">&#8383; BTC</span><span>$67,238</span><span class="up">+2.34%</span></div>
-                  <div class="ph-row"><span class="ph-coin">&Xi; ETH</span><span>$3,512</span><span class="up">+1.82%</span></div>
-                  <div class="ph-row"><span class="ph-coin">&#9678; SOL</span><span>$172.4</span><span class="down">-0.94%</span></div>
+                  <div class="ph-row" data-phsym="BTC"><span class="ph-coin">&#8383; BTC</span><span class="ph-p">&mdash;</span><span class="ph-chg">&mdash;</span></div>
+                  <div class="ph-row" data-phsym="ETH"><span class="ph-coin">&Xi; ETH</span><span class="ph-p">&mdash;</span><span class="ph-chg">&mdash;</span></div>
+                  <div class="ph-row" data-phsym="SOL"><span class="ph-coin">&#9678; SOL</span><span class="ph-p">&mdash;</span><span class="ph-chg">&mdash;</span></div>
                 </div>
                 <div class="ph-nav">
                   <span data-i18n="ph_nav_home">首页</span>
@@ -1678,24 +1713,29 @@ canvas { display: block; max-width: 100%; }
 
   <script>
 /* ============================================================
-   LOTI 单页交互逻辑
+   LOTI 乐缇 单页交互逻辑
    - 移动端菜单 / 导航滚动效果
    - 滚动入场动画 + 数字滚动
-   - 行情表格 + 跑马灯（模拟实时数据）
-   - Canvas 价格走势图（Hero 卡片 & 手机模型）
+   - 行情表格 + 跑马灯（Binance / OKX 公开 API 实时数据）
+   - Canvas 价格走势图（真实 K 线，Hero 卡片 & 手机模型）
    ============================================================ */
 
-// ---------- 模拟行情数据 ----------
+// ---------- 行情币种（初始为占位，数值由实时行情 API 填充） ----------
+const SYMBOLS = ["BTC", "ETH", "SOL", "BNB", "XRP", "DOGE", "ADA", "AVAX"];
 const COINS = [
-  { sym: "BTC",  name: "比特币", nameEn: "Bitcoin",   price: 67238.5,  change: 2.34,  high: 68120,  icon: "₿", cls: "coin-btc" },
-  { sym: "ETH",  name: "以太坊", nameEn: "Ethereum",  price: 3512.4,   change: 1.82,  high: 3568,   icon: "Ξ", cls: "coin-eth" },
-  { sym: "SOL",  name: "索拉纳", nameEn: "Solana",    price: 172.42,   change: -0.94, high: 176.8,  icon: "◎", cls: "coin-sol" },
-  { sym: "BNB",  name: "币安币", nameEn: "BNB",       price: 604.18,   change: 0.76,  high: 611.4,  icon: "B", cls: "coin-bnb" },
-  { sym: "XRP",  name: "瑞波币", nameEn: "XRP",       price: 0.6234,   change: 3.12,  high: 0.638,  icon: "X", cls: "coin-xrp" },
-  { sym: "DOGE", name: "狗狗币", nameEn: "Dogecoin",  price: 0.1582,   change: -2.05, high: 0.1654, icon: "Ð", cls: "coin-doge" },
-  { sym: "ADA",  name: "艾达币", nameEn: "Cardano",   price: 0.4521,   change: 1.24,  high: 0.461,  icon: "A", cls: "coin-ada" },
-  { sym: "AVAX", name: "雪崩币", nameEn: "Avalanche", price: 38.76,    change: 4.58,  high: 39.9,   icon: "▲", cls: "coin-avax" },
+  { sym: "BTC",  name: "比特币", nameEn: "Bitcoin",   price: null, change: null, high: null, low: null, vol: null, icon: "₿", cls: "coin-btc" },
+  { sym: "ETH",  name: "以太坊", nameEn: "Ethereum",  price: null, change: null, high: null, low: null, vol: null, icon: "Ξ", cls: "coin-eth" },
+  { sym: "SOL",  name: "索拉纳", nameEn: "Solana",    price: null, change: null, high: null, low: null, vol: null, icon: "◎", cls: "coin-sol" },
+  { sym: "BNB",  name: "币安币", nameEn: "BNB",       price: null, change: null, high: null, low: null, vol: null, icon: "B", cls: "coin-bnb" },
+  { sym: "XRP",  name: "瑞波币", nameEn: "XRP",       price: null, change: null, high: null, low: null, vol: null, icon: "X", cls: "coin-xrp" },
+  { sym: "DOGE", name: "狗狗币", nameEn: "Dogecoin",  price: null, change: null, high: null, low: null, vol: null, icon: "Ð", cls: "coin-doge" },
+  { sym: "ADA",  name: "艾达币", nameEn: "Cardano",   price: null, change: null, high: null, low: null, vol: null, icon: "A", cls: "coin-ada" },
+  { sym: "AVAX", name: "雪崩币", nameEn: "Avalanche", price: null, change: null, high: null, low: null, vol: null, icon: "▲", cls: "coin-avax" },
 ];
+
+// 实时数据源状态（null=连接中 / "Binance" / "OKX"），liveError=true 表示全部源均失败
+let liveDataSource = null;
+let liveError = false;
 
 // ---------- 多语言 i18n（中文 / English） ----------
 const I18N = {
@@ -1796,6 +1836,8 @@ const I18N = {
     about_strategy_p: "立足南非，辐射全非洲大陆。持续加大技术研发，完善本地化服务，拓展非洲各国市场；丰富 LOTIX 通证应用场景，联动实体产业，打造非洲标杆区块链生态。",
     about_vision: "企业愿景",
     about_vision_p: "成为非洲一流、具备全球影响力的区块链科技企业，以合规技术赋能非洲数字经济发展。",
+    live_loading: "实时行情连接中…",
+    live_error: "实时行情暂时不可用，正在自动重试…",
   },
   en: {
     meta_title: "LOTI — Upcoming Digital Asset Trading Platform · Beta Waitlist",
@@ -1894,6 +1936,8 @@ const I18N = {
     about_strategy_p: "Based in South Africa and expanding across the African continent. We keep investing in technology R&D, improving localized services and expanding into other African markets; we will enrich real-world use cases for the LOTIX token and partner with real-economy sectors to build Africa's benchmark blockchain ecosystem.",
     about_vision: "Our Vision",
     about_vision_p: "To become a top-tier, globally-influential blockchain technology enterprise in Africa, empowering Africa's digital economy through compliant technology.",
+    live_loading: "Connecting to live market data…",
+    live_error: "Live market data temporarily unavailable, retrying…",
   },
 };
 
@@ -1933,10 +1977,21 @@ function applyLang() {
   try { localStorage.setItem("lotix_lang", currentLang); } catch (e) {}
 }
 
-const fmtPrice = (p) =>
-  p >= 1000
+const fmtPrice = (p) => {
+  if (p == null || Number.isNaN(p)) return "—";
+  return p >= 1000
     ? "$" + p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     : "$" + p.toFixed(p >= 1 ? 2 : 4);
+};
+
+// 24h 成交量（基础币数量）
+const fmtVol = (v) => {
+  if (v == null || Number.isNaN(v)) return "—";
+  return (v >= 1000 ? Math.round(v).toLocaleString("en-US") : v.toFixed(2)) + " BTC";
+};
+
+// 涨跌幅文本
+const fmtChange = (c) => (c == null ? "—" : `${c >= 0 ? "+" : ""}${c.toFixed(2)}%`);
 
 // ---------- 移动端菜单 ----------
 const navToggle = document.getElementById("navToggle");
@@ -2011,8 +2066,8 @@ function renderMarket() {
         </span>
       </span>
       <span class="col-price mk-price">${fmtPrice(c.price)}</span>
-      <span class="col-change mk-change ${c.change >= 0 ? "up" : "down"}">
-        ${c.change >= 0 ? "+" : ""}${c.change.toFixed(2)}%
+      <span class="col-change mk-change ${c.change == null ? "" : c.change >= 0 ? "up" : "down"}">
+        ${fmtChange(c.change)}
       </span>
       <span class="col-high mk-high">${fmtPrice(c.high)}</span>
       <span class="col-action">
@@ -2027,6 +2082,7 @@ document.querySelectorAll(".lang-switch").forEach((btn) =>
   btn.addEventListener("click", () => {
     currentLang = currentLang === "zh" ? "en" : "zh";
     applyLang();
+    updateLiveLabel();
   })
 );
 
@@ -2040,32 +2096,193 @@ function renderMarquee() {
     <span class="marquee-item">
       <span class="m-name">${c.sym}/USDT</span>
       <span class="m-price">${fmtPrice(c.price)}</span>
-      <span class="${c.change >= 0 ? "up" : "down"}">${c.change >= 0 ? "▲" : "▼"} ${Math.abs(c.change).toFixed(2)}%</span>
+      <span class="${c.change == null ? "" : c.change >= 0 ? "up" : "down"}">${
+        c.change == null ? "—" : `${c.change >= 0 ? "▲" : "▼"} ${Math.abs(c.change).toFixed(2)}%`
+      }</span>
     </span>`;
   const list = COINS.map(item).join("");
   track.innerHTML = list + list; // 双份保证无缝滚动
 }
 renderMarquee();
 
-// ---------- 模拟实时价格波动 ----------
-function tickPrices() {
-  COINS.forEach((c) => {
-    const drift = (Math.random() - 0.5) * 0.002;
-    c.price = Math.max(c.price * (1 + drift), 0.0001);
-    c.change = c.change + drift * 100;
-  });
+/* ============================================================
+   实时行情数据层
+   主数据源：Binance 官方公开市场数据（无需 API Key，支持 CORS）
+   容灾源：OKX 公开行情 API
+   全部源均失败时保留上一次数据，绝不使用随机数伪造行情
+   ============================================================ */
+const BINANCE_HOSTS = [
+  "https://data-api.binance.vision", // 官方公开数据专用域名
+  "https://api.binance.com",
+  "https://api1.binance.com",
+];
 
-  document.querySelectorAll(".market-row").forEach((row) => {
-    const c = COINS.find((x) => x.sym === row.dataset.sym);
-    if (!c) return;
-    row.querySelector(".mk-price").textContent = fmtPrice(c.price);
-    const chg = row.querySelector(".mk-change");
-    chg.textContent = `${c.change >= 0 ? "+" : ""}${c.change.toFixed(2)}%`;
-    chg.className = `col-change mk-change ${c.change >= 0 ? "up" : "down"}`;
-  });
-  renderMarquee();
+async function fetchJson(url, ms = 9000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
 }
-setInterval(tickPrices, 2600);
+
+// 24h 行情快照：{ SYM: { price, change, high, low, vol } }
+async function fetchTickerMap() {
+  const q = encodeURIComponent(JSON.stringify(SYMBOLS.map((s) => s + "USDT")));
+  // 1) Binance
+  for (const base of BINANCE_HOSTS) {
+    try {
+      const arr = await fetchJson(`${base}/api/v3/ticker/24hr?symbols=${q}`);
+      if (Array.isArray(arr) && arr.length) {
+        const map = {};
+        arr.forEach((t) => {
+          map[t.symbol.replace("USDT", "")] = {
+            price: parseFloat(t.lastPrice),
+            change: parseFloat(t.priceChangePercent),
+            high: parseFloat(t.highPrice),
+            low: parseFloat(t.lowPrice),
+            vol: parseFloat(t.volume),
+          };
+        });
+        if (map.BTC && map.BTC.price) return { map, source: "Binance" };
+      }
+    } catch (e) {
+      console.warn("[LOTI] Binance ticker failed:", base, e.message);
+    }
+  }
+  // 2) OKX
+  try {
+    const j = await fetchJson("https://www.okx.com/api/v5/market/tickers?instType=SPOT");
+    const map = {};
+    (j.data || []).forEach((t) => {
+      const sym = t.instId && t.instId.endsWith("-USDT") ? t.instId.replace("-USDT", "") : null;
+      if (!sym || !SYMBOLS.includes(sym)) return;
+      const last = parseFloat(t.last);
+      const open = parseFloat(t.open24h);
+      map[sym] = {
+        price: last,
+        change: open ? ((last - open) / open) * 100 : null,
+        high: parseFloat(t.high24h),
+        low: parseFloat(t.low24h),
+        vol: parseFloat(t.vol24h),
+      };
+    });
+    if (map.BTC && map.BTC.price) return { map, source: "OKX" };
+  } catch (e) {
+    console.warn("[LOTI] OKX ticker failed:", e.message);
+  }
+  return null;
+}
+
+// 真实 K 线收盘价序列（Binance klines；OKX candles 容灾，OKX 为倒序需 reverse）
+async function fetchCloses(sym, interval = "1h", limit = 40) {
+  for (const base of BINANCE_HOSTS) {
+    try {
+      const arr = await fetchJson(
+        `${base}/api/v3/klines?symbol=${sym}USDT&interval=${interval}&limit=${limit}`
+      );
+      if (Array.isArray(arr) && arr.length) return arr.map((k) => parseFloat(k[4]));
+    } catch (e) {
+      console.warn("[LOTI] Binance klines failed:", base, e.message);
+    }
+  }
+  try {
+    const j = await fetchJson(
+      `https://www.okx.com/api/v5/market/candles?instId=${sym}-USDT&bar=${interval.toUpperCase()}&limit=${limit}`
+    );
+    if (j.data && j.data.length) return j.data.map((k) => parseFloat(k[4])).reverse();
+  } catch (e) {
+    console.warn("[LOTI] OKX candles failed:", e.message);
+  }
+  return null;
+}
+
+// Hero BTC 卡片
+const heroPriceEl = document.getElementById("heroPrice");
+const heroChangeEl = document.getElementById("heroChange");
+const heroHighEl = document.getElementById("heroHigh");
+const heroLowEl = document.getElementById("heroLow");
+const heroVolEl = document.getElementById("heroVol");
+function applyHero(b) {
+  heroPriceEl.textContent = fmtPrice(b.price);
+  heroChangeEl.textContent = fmtChange(b.change);
+  heroChangeEl.className = `ticker-change ${b.change == null ? "" : b.change >= 0 ? "up" : "down"}`;
+  heroHighEl.textContent = fmtPrice(b.high);
+  heroLowEl.textContent = fmtPrice(b.low);
+  heroVolEl.textContent = fmtVol(b.vol);
+}
+
+// 手机模型里的币种行
+function applyPhoneRows() {
+  document.querySelectorAll(".ph-row[data-phsym]").forEach((row) => {
+    const c = COINS.find((x) => x.sym === row.dataset.phsym);
+    if (!c || c.price == null) return;
+    row.querySelector(".ph-p").textContent = fmtPrice(c.price);
+    const chg = row.querySelector(".ph-chg");
+    chg.textContent = fmtChange(c.change);
+    chg.className = "ph-chg " + (c.change == null ? "" : c.change >= 0 ? "up" : "down");
+  });
+}
+
+// 数据源状态标识
+function updateLiveLabel() {
+  const dot = document.querySelector("#liveSource .live-dot");
+  const txt = document.getElementById("liveSourceText");
+  if (!txt) return;
+  if (liveDataSource) {
+    if (dot) dot.classList.add("live");
+    txt.textContent = (currentLang === "zh" ? "实时行情 · " : "Live · ") + liveDataSource;
+  } else if (liveError) {
+    if (dot) dot.classList.remove("live");
+    txt.textContent = t("live_error");
+  } else {
+    if (dot) dot.classList.remove("live");
+    txt.textContent = t("live_loading");
+  }
+}
+
+// 将一批实时快照写入页面
+function applyTickers(map) {
+  COINS.forEach((c) => {
+    const d = map[c.sym];
+    if (d) Object.assign(c, d);
+  });
+  renderMarket();
+  renderMarquee();
+
+  const btc = COINS.find((c) => c.sym === "BTC");
+  if (btc && btc.price != null) {
+    applyHero(btc);
+    if (heroPts.length) heroPts[heroPts.length - 1] = btc.price;
+    drawHero();
+  }
+  applyPhoneRows();
+  const eth = COINS.find((c) => c.sym === "ETH");
+  if (eth && eth.price != null && phonePts.length) {
+    phonePts[phonePts.length - 1] = eth.price;
+    drawPhone();
+  }
+}
+
+async function refreshTickers() {
+  const r = await fetchTickerMap();
+  if (r) {
+    liveDataSource = r.source;
+    liveError = false;
+    applyTickers(r.map);
+  } else {
+    liveError = true;
+    console.warn("[LOTI] all ticker sources unavailable, keep last data");
+  }
+  updateLiveLabel();
+}
+
+// 首次加载 + 每 10 秒刷新行情
+refreshTickers();
+setInterval(refreshTickers, 10000);
 
 // ---------- Canvas 走势图 ----------
 function buildPoints(base, volatility, trend, n) {
@@ -2125,7 +2342,7 @@ function drawChart(canvas, points, colorUp, colorDown) {
   ctx.fill();
 }
 
-// Hero BTC 图表
+// Hero BTC 图表（先绘制占位曲线，真实 K 线到达后整体替换）
 let heroPts = buildPoints(67000, 900, 60, 40);
 const heroCanvas = document.getElementById("heroChart");
 function drawHero() {
@@ -2134,43 +2351,30 @@ function drawHero() {
 drawHero();
 window.addEventListener("resize", drawHero);
 
-// Hero 卡片价格同步跳动
-const heroPriceEl = document.getElementById("heroPrice");
-const heroChangeEl = document.getElementById("heroChange");
-const heroHighEl = document.getElementById("heroHigh");
-const heroLowEl = document.getElementById("heroLow");
-setInterval(() => {
-  const last = heroPts[heroPts.length - 1];
-  const next = Math.max(last + (Math.random() - 0.48) * 220, 50000);
-  heroPts.push(next);
-  heroPts.shift();
-  drawHero();
-
-  heroPriceEl.textContent = fmtPrice(next);
-  const first = heroPts[0];
-  const pct = ((next - first) / first) * 100;
-  heroChangeEl.textContent = `${pct >= 0 ? "+" : ""}${pct.toFixed(2)}%`;
-  heroChangeEl.className = `ticker-change ${pct >= 0 ? "up" : "down"}`;
-  const hi = Math.max(...heroPts);
-  const lo = Math.min(...heroPts);
-  heroHighEl.textContent = fmtPrice(hi);
-  heroLowEl.textContent = fmtPrice(lo);
-}, 1800);
-
-// 手机模型小图表
+// 手机模型小图表（ETH 1h K 线）
+let phonePts = buildPoints(3500, 45, 3, 28);
 const phoneCanvas = document.getElementById("phoneChart");
-const phonePts = buildPoints(100, 4, 0.25, 28);
 function drawPhone() {
   drawChart(phoneCanvas, phonePts, "#2FE3E0", "#EA3943");
 }
 drawPhone();
 window.addEventListener("resize", drawPhone);
-setInterval(() => {
-  const last = phonePts[phonePts.length - 1];
-  phonePts.push(Math.max(last + (Math.random() - 0.45) * 2.2, 80));
-  phonePts.shift();
-  drawPhone();
-}, 2200);
+
+// 加载真实 K 线：Hero 用 BTC 1h×40，手机模型用 ETH 1h×28；每 60 秒刷新
+async function refreshCharts() {
+  const btc = await fetchCloses("BTC", "1h", 40);
+  if (btc && btc.length) {
+    heroPts = btc;
+    drawHero();
+  }
+  const eth = await fetchCloses("ETH", "1h", 28);
+  if (eth && eth.length) {
+    phonePts = eth;
+    drawPhone();
+  }
+}
+refreshCharts();
+setInterval(refreshCharts, 60000);
 
   </script>
 </body>

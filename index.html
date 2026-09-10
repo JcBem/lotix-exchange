@@ -145,14 +145,14 @@
               <span class="ticker-tag" data-i18n="ticker_spot">现货</span>
             </div>
             <div class="ticker-price">
-              <span id="heroPrice">$67,238.50</span>
-              <span class="ticker-change up" id="heroChange">+2.34%</span>
+              <span id="heroPrice">&mdash;</span>
+              <span class="ticker-change" id="heroChange">&mdash;</span>
             </div>
             <canvas id="heroChart" width="420" height="160" data-i18n-label="chart_aria" aria-label="BTC 价格走势图"></canvas>
             <div class="ticker-foot">
-              <div><small data-i18n="ticker_high">24h 最高</small><strong id="heroHigh">$68,120.00</strong></div>
-              <div><small data-i18n="ticker_low">24h 最低</small><strong id="heroLow">$65,840.00</strong></div>
-              <div><small data-i18n="ticker_vol">24h 量</small><strong>28,492 BTC</strong></div>
+              <div><small data-i18n="ticker_high">24h 最高</small><strong id="heroHigh">&mdash;</strong></div>
+              <div><small data-i18n="ticker_low">24h 最低</small><strong id="heroLow">&mdash;</strong></div>
+              <div><small data-i18n="ticker_vol">24h 量</small><strong id="heroVol">&mdash;</strong></div>
             </div>
             <button class="btn btn-primary btn-block" type="button" data-i18n="ticker_cta">预约内测 · 上线优先交易</button>
           </div>
@@ -172,6 +172,10 @@
           <div>
             <h2 class="section-title" data-i18n="markets_title">热门市场行情</h2>
             <p class="section-sub" data-i18n="markets_sub">实时追踪主流加密货币价格，把握每一个交易机会</p>
+            <div class="live-source" id="liveSource">
+              <span class="live-dot"></span>
+              <span id="liveSourceText" data-i18n="live_loading">实时行情连接中…</span>
+            </div>
           </div>
           <a href="#" class="section-more" data-i18n="markets_more">查看全部市场 &rarr;</a>
         </div>
@@ -381,9 +385,9 @@
                   <canvas id="phoneChart" width="240" height="90"></canvas>
                 </div>
                 <div class="ph-rows">
-                  <div class="ph-row"><span class="ph-coin">&#8383; BTC</span><span>$67,238</span><span class="up">+2.34%</span></div>
-                  <div class="ph-row"><span class="ph-coin">&Xi; ETH</span><span>$3,512</span><span class="up">+1.82%</span></div>
-                  <div class="ph-row"><span class="ph-coin">&#9678; SOL</span><span>$172.4</span><span class="down">-0.94%</span></div>
+                  <div class="ph-row" data-phsym="BTC"><span class="ph-coin">&#8383; BTC</span><span class="ph-p">&mdash;</span><span class="ph-chg">&mdash;</span></div>
+                  <div class="ph-row" data-phsym="ETH"><span class="ph-coin">&Xi; ETH</span><span class="ph-p">&mdash;</span><span class="ph-chg">&mdash;</span></div>
+                  <div class="ph-row" data-phsym="SOL"><span class="ph-coin">&#9678; SOL</span><span class="ph-p">&mdash;</span><span class="ph-chg">&mdash;</span></div>
                 </div>
                 <div class="ph-nav">
                   <span data-i18n="ph_nav_home">首页</span>

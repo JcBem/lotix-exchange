@@ -1031,6 +1031,37 @@ canvas { display: block; max-width: 100%; }
   color: var(--text);
 }
 
+/* 实时行情数据源标识 */
+.live-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .03);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8a93a6;
+  flex-shrink: 0;
+}
+.live-dot.live {
+  background: #16c784;
+  animation: livePulse 1.8s infinite;
+}
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(22, 199, 132, .55); }
+  70%  { box-shadow: 0 0 0 8px rgba(22, 199, 132, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 199, 132, 0); }
+}
+
 /* ---------------- 响应式 ---------------- */
 @media (max-width: 1024px) {
   .feature-grid { grid-template-columns: repeat(2, 1fr); }

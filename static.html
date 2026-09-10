@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LOTI 乐提 — 即将上线的数字资产交易平台 · 内测预约</title>
-  <meta name="description" content="LOTI 乐提是一家正在筹备中的数字资产交易平台，即将提供安全、专业、便捷的比特币、以太坊等加密货币现货与合约交易服务，内测预约现已开启。" />
+  <title>LOTI 乐缇 — 即将上线的数字资产交易平台 · 内测预约</title>
+  <meta name="description" content="LOTI 乐缇是一家正在筹备中的数字资产交易平台，即将提供安全、专业、便捷的比特币、以太坊等加密货币现货与合约交易服务，内测预约现已开启。" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2343E9E8'/%3E%3Cstop offset='1' stop-color='%232A6BF0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='20,28 44,20 44,70 20,78' fill='url(%23g)'/%3E%3Cpath d='M16,94 L38,72 L52,82 L96,32' stroke='%2349EDE8' stroke-width='11' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpolygon points='88,18 114,12 108,38' fill='%2349EDE8'/%3E%3Cpolygon points='16,98 58,98 46,112 12,112' fill='url(%23g)'/%3E%3Cpolygon points='62,86 92,104 92,118 58,100' fill='%2337D8E8'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -860,11 +860,196 @@ canvas { display: block; max-width: 100%; }
   transform: translateY(0);
 }
 
+/* ---------------- 关于 LOTI ---------------- */
+.about-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 56px;
+}
+.about-intro-card {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 30px;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.about-intro-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: 0 18px 40px rgba(0,0,0,.4), 0 0 24px rgba(47,227,224,.08);
+}
+.about-intro-icon {
+  flex-shrink: 0;
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--grad-soft);
+  border: 1px solid var(--border-strong);
+  color: var(--cyan-bright);
+}
+.about-intro-icon svg { width: 24px; height: 24px; }
+.about-intro-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.about-intro-card p { font-size: 14px; color: var(--muted); }
+
+.about-block-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 64px 0 28px;
+  position: relative;
+}
+.about-block-title::after {
+  content: "";
+  display: block;
+  width: 48px; height: 3px;
+  border-radius: 3px;
+  background: var(--grad);
+  margin: 12px auto 0;
+}
+
+.biz-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.biz-card {
+  position: relative;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px 20px 24px;
+  overflow: hidden;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.biz-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--grad);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.biz-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--border-strong);
+  box-shadow: 0 18px 40px rgba(0,0,0,.4), 0 0 24px rgba(47,227,224,.08);
+}
+.biz-card:hover::before { opacity: 1; }
+.biz-num {
+  display: block;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 14px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.biz-card h4 { font-size: 15px; font-weight: 700; line-height: 1.5; }
+.biz-card p { font-size: 12.5px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+.adv-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.adv-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px 24px;
+  transition: transform .25s ease, border-color .25s ease;
+}
+.adv-card:hover { transform: translateY(-4px); border-color: var(--border-strong); }
+.adv-card .check-icon { margin-bottom: 16px; }
+.adv-card p { font-size: 14px; color: var(--text); line-height: 1.65; }
+
+.about-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 64px;
+}
+.about-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 32px 30px;
+}
+.about-col-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.about-col-icon {
+  flex-shrink: 0;
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--grad-soft);
+  border: 1px solid var(--border-strong);
+  color: var(--cyan-bright);
+}
+.about-col-icon svg { width: 23px; height: 23px; }
+.about-col-head h3 { font-size: 19px; font-weight: 800; }
+.about-col > p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+.compliance-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.comp-badge {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  padding: 6px 16px;
+  border-radius: 999px;
+  color: var(--cyan-bright);
+  background: var(--grad-soft);
+  border: 1px solid var(--border-strong);
+}
+
+.vision-banner {
+  position: relative;
+  margin-top: 20px;
+  border-radius: 18px;
+  padding: 48px 40px;
+  text-align: center;
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(135deg, rgba(47,227,224,.10), rgba(61,123,255,.10));
+  overflow: hidden;
+}
+.vision-glow {
+  position: absolute;
+  width: 420px; height: 420px;
+  top: -260px; left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(47,227,224,.22), transparent 65%);
+  pointer-events: none;
+}
+.vision-banner h3 {
+  position: relative;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--cyan-bright);
+  margin-bottom: 14px;
+}
+.vision-banner p {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--text);
+}
+
 /* ---------------- 响应式 ---------------- */
 @media (max-width: 1024px) {
   .feature-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; }
+  .biz-grid { grid-template-columns: repeat(3, 1fr); }
+  .adv-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
@@ -890,6 +1075,9 @@ canvas { display: block; max-width: 100%; }
   .market-row { grid-template-columns: 1.6fr 1.2fr 1fr auto; padding: 14px 16px; gap: 10px; }
   .col-high { display: none; }
   .market-row-head .col-high { display: none; }
+
+  .about-intro { grid-template-columns: 1fr; }
+  .about-cols { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px) {
@@ -903,6 +1091,12 @@ canvas { display: block; max-width: 100%; }
   .market-row-head { display: none; }
   .market-row { grid-template-columns: 1.4fr 1fr .8fr; }
   .col-action { display: none; }
+  .biz-grid { grid-template-columns: repeat(2, 1fr); }
+  .adv-grid { grid-template-columns: 1fr; }
+  .vision-banner { padding: 36px 22px; }
+  .vision-banner p { font-size: 15px; }
+  .about-block-title { margin-top: 48px; }
+  .about-cols { margin-top: 48px; }
 }
 
   </style>
@@ -947,7 +1141,7 @@ canvas { display: block; max-width: 100%; }
         <a href="#start" class="nav-link" data-i18n="nav_guide">新手指南</a>
         <a href="#security" class="nav-link" data-i18n="nav_security">安全保障</a>
         <a href="#app" class="nav-link" data-i18n="nav_app">App 预约</a>
-        <a href="#footer" class="nav-link" data-i18n="nav_about">关于我们</a>
+        <a href="#about" class="nav-link" data-i18n="nav_about">关于我们</a>
       </nav>
 
       <div class="nav-actions">
@@ -972,7 +1166,7 @@ canvas { display: block; max-width: 100%; }
     <a href="#start" class="mobile-link" data-i18n="nav_guide">新手指南</a>
     <a href="#security" class="mobile-link" data-i18n="nav_security">安全保障</a>
     <a href="#app" class="mobile-link" data-i18n="nav_app">App 预约</a>
-    <a href="#footer" class="mobile-link" data-i18n="nav_about">关于我们</a>
+    <a href="#about" class="mobile-link" data-i18n="nav_about">关于我们</a>
     <div class="mobile-actions">
       <button class="lang-switch lang-switch-mobile" type="button">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -1000,7 +1194,7 @@ canvas { display: block; max-width: 100%; }
             <span class="text-gradient" data-i18n="hero_title_2">领跑数字资产交易</span>
           </h1>
           <p class="hero-desc" data-i18n="hero_desc">
-            LOTI 乐提是一家初创数字资产交易平台，正在为正式上线全力筹备。
+            LOTI 乐缇是一家初创数字资产交易平台，正在为正式上线全力筹备。
             未来我们将提供比特币、以太坊等主流加密货币的现货与合约交易服务，
             以银行级安全架构、顶级交易深度与 7&times;24 小时中文客服，打造安心、专业的交易体验。
           </p>
@@ -1294,6 +1488,122 @@ canvas { display: block; max-width: 100%; }
         </div>
       </div>
     </section>
+    <!-- 关于 LOTI -->
+    <section class="section section-alt" id="about">
+      <div class="container">
+        <div class="section-head section-head-center reveal">
+          <div>
+            <div class="section-tag" data-i18n="about_tag">关于 LOTI · ABOUT</div>
+            <h2 class="section-title" data-i18n="about_title">立足南非 · 辐射全非洲的合规区块链科技企业</h2>
+            <p class="section-sub" data-i18n="about_sub">LOTI 乐缇由传统实业龙头企业与国际投资机构联合发起，总部位于约翰内斯堡，构建「技术‑算力‑交易‑投资」一体化闭环生态。</p>
+          </div>
+        </div>
+
+        <!-- 企业定位 / 股东背景 -->
+        <div class="about-intro">
+          <article class="about-intro-card reveal">
+            <div class="about-intro-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <h3 data-i18n="about_position">企业定位</h3>
+              <p data-i18n="about_position_p">南非本土持牌区块链金融科技企业，总部位于约翰内斯堡。</p>
+            </div>
+          </article>
+          <article class="about-intro-card reveal">
+            <div class="about-intro-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 20 7 4 7"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="6" y1="10" x2="6" y2="21"/><line x1="10" y1="10" x2="10" y2="21"/><line x1="14" y1="10" x2="14" y2="21"/><line x1="18" y1="10" x2="18" y2="21"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+            </div>
+            <div>
+              <h3 data-i18n="about_shareholders">股东背景</h3>
+              <p data-i18n="about_shareholders_p">由传统实业龙头企业与国际投资机构联合发起，拥有雄厚实体产业资源与跨境资本实力。</p>
+            </div>
+          </article>
+        </div>
+
+        <!-- 核心业务 -->
+        <h3 class="about-block-title reveal" data-i18n="about_biz">核心业务</h3>
+        <div class="biz-grid">
+          <article class="biz-card reveal">
+            <span class="biz-num">01</span>
+            <h4 data-i18n="biz1">区块链底层技术研发</h4>
+          </article>
+          <article class="biz-card reveal">
+            <span class="biz-num">02</span>
+            <h4 data-i18n="biz2">合规数字资产交易平台运营</h4>
+          </article>
+          <article class="biz-card reveal">
+            <span class="biz-num">03</span>
+            <h4 data-i18n="biz3">算力基础设施建设</h4>
+          </article>
+          <article class="biz-card reveal">
+            <span class="biz-num">04</span>
+            <h4 data-i18n="biz4">数字产业战略投资</h4>
+          </article>
+          <article class="biz-card reveal">
+            <span class="biz-num">05</span>
+            <h4 data-i18n="biz5">生态通证 LOTIX</h4>
+            <p data-i18n="biz5_p">承担生态流通、权益激励功能</p>
+          </article>
+        </div>
+
+        <!-- 核心优势 -->
+        <h3 class="about-block-title reveal" data-i18n="about_adv">核心优势</h3>
+        <div class="adv-grid">
+          <article class="adv-card reveal">
+            <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <p data-i18n="adv1">南非属地合规运营，熟悉非洲金融市场环境</p>
+          </article>
+          <article class="adv-card reveal">
+            <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <p data-i18n="adv2">实业资本加持，资金与产业链资源充足</p>
+          </article>
+          <article class="adv-card reveal">
+            <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <p data-i18n="adv3">全栈技术团队，覆盖研发、运维、风控、合规</p>
+          </article>
+          <article class="adv-card reveal">
+            <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <p data-i18n="adv4">完整闭环生态：技术‑算力‑交易‑投资一体化布局</p>
+          </article>
+        </div>
+
+        <!-- 合规资质 / 发展战略 -->
+        <div class="about-cols">
+          <article class="about-col reveal">
+            <div class="about-col-head">
+              <span class="about-col-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              </span>
+              <h3 data-i18n="about_compliance">合规资质</h3>
+            </div>
+            <p data-i18n="about_compliance_p">严格遵循南非 FSCA、FIC 监管要求，落实反洗钱、KYC 客户身份核验制度，完成当地相关备案，深耕非洲本土市场。</p>
+            <div class="compliance-badges">
+              <span class="comp-badge">FSCA</span>
+              <span class="comp-badge">FIC</span>
+              <span class="comp-badge" data-i18n="comp_aml">AML 反洗钱</span>
+              <span class="comp-badge" data-i18n="comp_kyc">KYC 身份核验</span>
+            </div>
+          </article>
+          <article class="about-col reveal">
+            <div class="about-col-head">
+              <span class="about-col-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </span>
+              <h3 data-i18n="about_strategy">发展战略</h3>
+            </div>
+            <p data-i18n="about_strategy_p">立足南非，辐射全非洲大陆。持续加大技术研发，完善本地化服务，拓展非洲各国市场；丰富 LOTIX 通证应用场景，联动实体产业，打造非洲标杆区块链生态。</p>
+          </article>
+        </div>
+
+        <!-- 企业愿景 -->
+        <div class="vision-banner reveal">
+          <div class="vision-glow" aria-hidden="true"></div>
+          <h3 data-i18n="about_vision">企业愿景</h3>
+          <p data-i18n="about_vision_p">成为非洲一流、具备全球影响力的区块链科技企业，以合规技术赋能非洲数字经济发展。</p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- 页脚 -->
@@ -1311,7 +1621,7 @@ canvas { display: block; max-width: 100%; }
             </svg>
             <span class="logo-text">LOT<em>I</em></span>
           </a>
-          <p data-i18n="footer_about">LOTI 乐提是一家初创数字资产交易平台，目前正处于筹备阶段。我们致力于为全球用户打造安全、专业、便捷的加密货币交易服务，平台即将上线，敬请期待。</p>
+          <p data-i18n="footer_about">LOTI 乐缇是一家初创数字资产交易平台，目前正处于筹备阶段。我们致力于为全球用户打造安全、专业、便捷的加密货币交易服务，平台即将上线，敬请期待。</p>
           <div class="footer-social">
             <a href="#" aria-label="Twitter / X">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -1360,7 +1670,7 @@ canvas { display: block; max-width: 100%; }
       </div>
 
       <div class="footer-bottom">
-        <p data-i18n="footer_copy1">&copy; 2026 LOTI 乐提. 平台正在筹备中，暂未开放任何交易与注册服务，页面数据仅为界面演示。</p>
+        <p data-i18n="footer_copy1">&copy; 2026 LOTI 乐缇. 平台正在筹备中，暂未开放任何交易与注册服务，页面数据仅为界面演示。</p>
         <p data-i18n="footer_copy2">加密资产交易存在较大价格波动风险，正式上线后请谨慎评估自身风险承受能力。</p>
       </div>
     </div>
@@ -1390,8 +1700,8 @@ const COINS = [
 // ---------- 多语言 i18n（中文 / English） ----------
 const I18N = {
   zh: {
-    meta_title: "LOTI 乐提 — 即将上线的数字资产交易平台 · 内测预约",
-    meta_desc: "LOTI 乐提是一家正在筹备中的数字资产交易平台，即将提供安全、专业、便捷的比特币、以太坊等加密货币现货与合约交易服务，内测预约现已开启。",
+    meta_title: "LOTI 乐缇 — 即将上线的数字资产交易平台 · 内测预约",
+    meta_desc: "LOTI 乐缇是一家正在筹备中的数字资产交易平台，即将提供安全、专业、便捷的比特币、以太坊等加密货币现货与合约交易服务，内测预约现已开启。",
     announce_text: "LOTI 平台正在筹备中，预计近期正式上线。现在预约内测，可享早期用户专属权益。",
     announce_link: "立即预约 →",
     nav_markets: "行情", nav_features: "服务", nav_guide: "新手指南",
@@ -1399,7 +1709,7 @@ const I18N = {
     nav_contact: "联系我们", nav_reserve: "预约内测", mobile_reserve: "立即预约内测",
     hero_badge: "全新数字资产交易平台 · 即将上线 · 内测预约已开启",
     hero_title_1: "把握趋势", hero_title_2: "领跑数字资产交易",
-    hero_desc: "LOTI 乐提是一家初创数字资产交易平台，正在为正式上线全力筹备。未来我们将提供比特币、以太坊等主流加密货币的现货与合约交易服务，以银行级安全架构、顶级交易深度与 7×24 小时多语言客服，打造安心、专业的交易体验。",
+    hero_desc: "LOTI 乐缇是一家初创数字资产交易平台，正在为正式上线全力筹备。未来我们将提供比特币、以太坊等主流加密货币的现货与合约交易服务，以银行级安全架构、顶级交易深度与 7×24 小时多语言客服，打造安心、专业的交易体验。",
     hero_cta_primary: "预约抢先体验", hero_cta_secondary: "了解 LOTI",
     stat_security_t: "安全架构", stat_security_d: "冷热钱包分离 · 储备金证明规划",
     stat_perf_t: "极致性能", stat_perf_d: "每秒 140 万笔撮合引擎",
@@ -1447,7 +1757,7 @@ const I18N = {
     ph_balance: "总资产估值 (USDT)", ph_today: "+3.86% 今日",
     ph_nav_home: "首页", ph_nav_markets: "行情", ph_nav_buy: "买币",
     ph_nav_futures: "合约", ph_nav_assets: "资产",
-    footer_about: "LOTI 乐提是一家初创数字资产交易平台，目前正处于筹备阶段。我们致力于为全球用户打造安全、专业、便捷的加密货币交易服务，平台即将上线，敬请期待。",
+    footer_about: "LOTI 乐缇是一家初创数字资产交易平台，目前正处于筹备阶段。我们致力于为全球用户打造安全、专业、便捷的加密货币交易服务，平台即将上线，敬请期待。",
     fcol_product: "产品服务",
     f_spot: "现货交易", f_futures: "合约交易", f_earn: "理财赚币", f_copy: "跟单交易", f_app: "移动 App",
     fcol_about: "关于我们",
@@ -1457,8 +1767,35 @@ const I18N = {
     f_guide: "新手指南", f_help: "帮助中心", f_fees: "费率说明", f_api: "API 文档", f_feedback: "意见反馈",
     fcol_legal: "合规服务",
     f_terms: "服务条款", f_privacy: "隐私政策", f_risk: "风险提示", f_por: "储备金证明", f_license: "牌照信息",
-    footer_copy1: "© 2026 LOTI 乐提. 平台正在筹备中，暂未开放任何交易与注册服务，页面数据仅为界面演示。",
+    footer_copy1: "© 2026 LOTI 乐缇. 平台正在筹备中，暂未开放任何交易与注册服务，页面数据仅为界面演示。",
     footer_copy2: "加密资产交易存在较大价格波动风险，正式上线后请谨慎评估自身风险承受能力。",
+    about_tag: "关于 LOTI · ABOUT",
+    about_title: "立足南非 · 辐射全非洲的合规区块链科技企业",
+    about_sub: "LOTI 乐缇由传统实业龙头企业与国际投资机构联合发起，总部位于约翰内斯堡，构建「技术‑算力‑交易‑投资」一体化闭环生态。",
+    about_position: "企业定位",
+    about_position_p: "南非本土持牌区块链金融科技企业，总部位于约翰内斯堡。",
+    about_shareholders: "股东背景",
+    about_shareholders_p: "由传统实业龙头企业与国际投资机构联合发起，拥有雄厚实体产业资源与跨境资本实力。",
+    about_biz: "核心业务",
+    biz1: "区块链底层技术研发",
+    biz2: "合规数字资产交易平台运营",
+    biz3: "算力基础设施建设",
+    biz4: "数字产业战略投资",
+    biz5: "生态通证 LOTIX",
+    biz5_p: "承担生态流通、权益激励功能",
+    about_adv: "核心优势",
+    adv1: "南非属地合规运营，熟悉非洲金融市场环境",
+    adv2: "实业资本加持，资金与产业链资源充足",
+    adv3: "全栈技术团队，覆盖研发、运维、风控、合规",
+    adv4: "完整闭环生态：技术‑算力‑交易‑投资一体化布局",
+    about_compliance: "合规资质",
+    about_compliance_p: "严格遵循南非 FSCA、FIC 监管要求，落实反洗钱、KYC 客户身份核验制度，完成当地相关备案，深耕非洲本土市场。",
+    comp_aml: "AML 反洗钱",
+    comp_kyc: "KYC 身份核验",
+    about_strategy: "发展战略",
+    about_strategy_p: "立足南非，辐射全非洲大陆。持续加大技术研发，完善本地化服务，拓展非洲各国市场；丰富 LOTIX 通证应用场景，联动实体产业，打造非洲标杆区块链生态。",
+    about_vision: "企业愿景",
+    about_vision_p: "成为非洲一流、具备全球影响力的区块链科技企业，以合规技术赋能非洲数字经济发展。",
   },
   en: {
     meta_title: "LOTI — Upcoming Digital Asset Trading Platform · Beta Waitlist",
@@ -1530,6 +1867,33 @@ const I18N = {
     f_terms: "Terms of Service", f_privacy: "Privacy Policy", f_risk: "Risk Warning", f_por: "Proof of Reserves", f_license: "Licenses",
     footer_copy1: "© 2026 LOTI. The platform is in preparation; no trading or registration services are available yet. Data shown is for UI demonstration only.",
     footer_copy2: "Crypto assets are subject to significant price volatility. After launch, please carefully assess your own risk tolerance.",
+    about_tag: "ABOUT LOTI",
+    about_title: "A Compliant Blockchain Technology Company Rooted in South Africa, Reaching Across the Continent",
+    about_sub: "LOTI (Leti) was jointly founded by leading traditional-industry enterprises and international investment institutions. Headquartered in Johannesburg, we are building an integrated closed-loop ecosystem spanning technology, computing power, trading and investment.",
+    about_position: "Company Position",
+    about_position_p: "A locally-licensed blockchain fintech enterprise headquartered in Johannesburg, South Africa.",
+    about_shareholders: "Shareholder Background",
+    about_shareholders_p: "Jointly founded by leading traditional-industry enterprises and international investment institutions, with solid real-industry resources and cross-border capital strength.",
+    about_biz: "Core Business",
+    biz1: "Blockchain Underlying-Technology R&D",
+    biz2: "Compliant Digital-Asset Trading Platform Operation",
+    biz3: "Computing-Power Infrastructure Construction",
+    biz4: "Strategic Investment in Digital Industries",
+    biz5: "Ecosystem Token LOTIX",
+    biz5_p: "Powering ecosystem circulation and community incentives",
+    about_adv: "Core Advantages",
+    adv1: "Local-compliant operation in South Africa, with an in-depth understanding of African financial markets",
+    adv2: "Backed by industrial capital, with abundant funding and industrial-chain resources",
+    adv3: "Full-stack technical team covering R&D, operations, risk control and compliance",
+    adv4: "Closed-loop ecosystem: an integrated technology–computing power–trading–investment layout",
+    about_compliance: "Compliance",
+    about_compliance_p: "Operates in strict accordance with South Africa's FSCA and FIC regulations. Implements anti-money-laundering and KYC procedures and has completed local filings, deeply rooted in the African market.",
+    comp_aml: "AML",
+    comp_kyc: "KYC",
+    about_strategy: "Development Strategy",
+    about_strategy_p: "Based in South Africa and expanding across the African continent. We keep investing in technology R&D, improving localized services and expanding into other African markets; we will enrich real-world use cases for the LOTIX token and partner with real-economy sectors to build Africa's benchmark blockchain ecosystem.",
+    about_vision: "Our Vision",
+    about_vision_p: "To become a top-tier, globally-influential blockchain technology enterprise in Africa, empowering Africa's digital economy through compliant technology.",
   },
 };
 

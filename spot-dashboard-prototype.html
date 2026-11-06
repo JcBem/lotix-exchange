@@ -804,17 +804,53 @@ const App = (() => {
 
 /* ---- 1. 全局常量与配置（消灭散落硬编码） ---- */
 const CONFIG = {
-  /* 交易核心参数 */
-  marketPrice: 67842.5,
+  /* 交易核心参数（运行时由真实 API 更新） */
+  marketPrice: 0,              // ← 初始 0，API 拉取后覆盖
   baseAsset: 'USDT',
   qAsset: 'BTC',
   availUsdt: 12480,
   availBtc: 0.3842,
   assetTotal: 46551.55,
 
-  /* 周期配置 */
+  /* 周期配置（Binance 原生 interval 映射） */
   timeframes: { trade:['15m','1h','4h','1D','1W'], asset:['7D','1M','3M','1Y'] },
   tfSec:{'15m':900,'1h':3600,'4h':14400,'1D':86400,'1W':604800},
+
+  /* ============ 真实行情 API（免 API key、跨域 OK） ============ */
+  api: {
+    binance: {
+      base: 'https://api.binance.com',
+      endpoints: {
+        kline: (symbol,interval,limit)=>`/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit||48}`,
+        depth: (symbol,limit)=>`/api/v3/depth?symbol=${symbol}&limit=${limit||20}`,
+        ticker24h: (symbol)=>`/api/v3/ticker/24hr?symbol=${symbol}`,
+        allTickers: ()=>`/api/v3/ticker/24hr`,           // 全部交易对概览
+        trades: (symbol,limit)=>`/api/v3/trades?symbol=${symbol}&limit=${limit||10}`
+      }
+    },
+    coingecko: {
+      base: 'https://api.coingecko.com/api/v3',
+      endpoints: {
+        marketChart: (coin,vs,days)=>`/coins/${coin}/market_chart?vs_currency=${vs}&days=${days}`
+      }
+    }
+  },
+
+  /* 交易对映射（sym = Binance symbol，cg = CoinGecko id，disp = 展示名） */
+  symbolMap: {
+    BTC: { sym:'BTCUSDT', cg:'bitcoin',   disp:'Bitcoin' },
+    ETH: { sym:'ETHUSDT', cg:'ethereum',  disp:'Ethereum' },
+    SOL: { sym:'SOLUSDT', cg:'solana',    disp:'Solana' },
+    BNB: { sym:'BNBUSDT', cg:'binancecoin',disp:'BNB' },
+    XRP: { sym:'XRPUSDT', cg:'ripple',    disp:'XRP' },
+    DOGE:{ sym:'DOGEUSDT',cg:'dogecoin',  disp:'Dogecoin' },
+    ADA: { sym:'ADAUSDT', cg:'cardano',   disp:'Cardano' },
+    TON: { sym:'TONUSDT', cg:'the-open-network',disp:'Toncoin' }
+  },
+  currentSymbol: 'BTC',  // ← 当前关注币
+
+  /* 轮询间隔（毫秒）：15 秒一次 */
+  pollIntervalMs: 15000,
 
   /* 颜色读取（canvas 需同步 CSS token —— 首次 render 后从 getComputedStyle 取） */
   readCssToken: function(name){
@@ -962,42 +998,226 @@ const charts = {
   }
 };
 
-/* K线数据生成 + 填充 */
-function genCandles(n, base){
-  let price=base, out=[];
-  for(let i=0;i<n;i++){
-    const drift=(Math.random()-.48)*base*.008;
-    const open=price, close=price+drift;
-    const high=Math.max(open,close)+Math.random()*base*.003;
-    const low=Math.min(open,close)-Math.random()*base*.003;
-    out.push({ open, high, low, close, vol:Math.random()*80+20 });
-    price=close;
-  }
-  return out;
-}
+/* ============ 真实行情 API 模块（替代 genCandles/buildDepth/market 模拟） ============ */
+const api = {
 
-function feedKline(tf, reloadOnly=false){
+  async get(path){
+    try {
+      const r = await fetch(path, { cache:'no-cache' });
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return await r.json();
+    } catch(e){
+      return null;  // 失败返回 null，上层 fallback mock
+    }
+  },
+
+  /* K 线 — Binance klines → lightweight-charts 格式 */
+  async fetchKline(symbol, interval, limit=48){
+    const sym = CONFIG.symbolMap[symbol]?.sym || 'BTCUSDT';
+    const path = CONFIG.api.binance.base + CONFIG.api.binance.endpoints.kline(sym, interval, limit);
+    const raw = await this.get(path);
+    if(!raw) return null;
+    /* Binance 格式：[openTime, open, high, low, close, vol, closeTime, quoteVol, trades, buyVol, buyQuoteVol, ignored] */
+    return raw.map(k=>({
+      time: Math.floor(k[0]/1000),
+      open: parseFloat(k[1]),
+      high: parseFloat(k[2]),
+      low:  parseFloat(k[3]),
+      close: parseFloat(k[4]),
+      vol:  parseFloat(k[5])
+    }));
+  },
+
+  /* 24h 概览 — Binance ticker/24hr */
+  async fetchTicker(symbol){
+    const sym = CONFIG.symbolMap[symbol]?.sym || 'BTCUSDT';
+    const path = CONFIG.api.binance.base + CONFIG.api.binance.endpoints.ticker24h(sym);
+    const raw = await this.get(path);
+    if(!raw) return null;
+    return {
+      lastPrice:    parseFloat(raw.lastPrice),
+      priceChange:  parseFloat(raw.priceChange),
+      priceChangePct: parseFloat(raw.priceChangePercent),
+      openPrice:    parseFloat(raw.openPrice),
+      highPrice:    parseFloat(raw.highPrice),
+      lowPrice:     parseFloat(raw.lowPrice),
+      volume:       parseFloat(raw.volume),
+      quoteVolume:  parseFloat(raw.quoteVolume),
+      bidPrice:     parseFloat(raw.bidPrice),
+      askPrice:     parseFloat(raw.askPrice)
+    };
+  },
+
+  /* 盘口深度 — Binance depth → {asks:[{price,qty}], bids:[{price,qty}]} */
+  async fetchDepth(symbol, limit=12){
+    const sym = CONFIG.symbolMap[symbol]?.sym || 'BTCUSDT';
+    const path = CONFIG.api.binance.base + CONFIG.api.binance.endpoints.depth(sym, limit);
+    const raw = await this.get(path);
+    if(!raw) return null;
+    return {
+      asks: raw.asks.map(a=>({p:parseFloat(a[0]), a:parseFloat(a[1])})),
+      bids: raw.bids.map(b=>({p:parseFloat(b[0]), a:parseFloat(b[1])}))
+    };
+  },
+
+  /* 行情全览 — Binance allTickers → 过滤 USDT 交易对前 N 个 */
+  async fetchAllTickers(){
+    const path = CONFIG.api.binance.base + CONFIG.api.binance.endpoints.allTickers();
+    const raw = await this.get(path);
+    if(!raw) return null;
+    /* 只保留 USDT 现货、排除 UP/USDSC 等 */
+    return raw
+      .filter(t=>t.symbol.endsWith('USDT') && !t.symbol.startsWith('UP') && !t.symbol.includes('USDC'))
+      .map(t=>({
+        sym: t.symbol,
+        last: parseFloat(t.lastPrice),
+        chgPct: parseFloat(t.priceChangePercent),
+        quoteVolume: parseFloat(t.quoteVolume)
+      }));
+  },
+
+  /* 资产走势 — CoinGecko market_chart（fallback：coin 不存在） */
+  async fetchAssetChart(coinId, days){
+    const path = CONFIG.api.coingecko.base + CONFIG.api.coingecko.endpoints.marketChart(coinId, 'usd', days);
+    const raw = await this.get(path);
+    if(!raw || !raw.prices) return null;
+    return raw.prices.map(([ts,v])=>({ time: Math.floor(ts/1000), value: +v.toFixed(2) }));
+  }
+};
+
+/* -------- mock fallback（API 失败时保底） -------- */
+function genCandles(n, base){let price=base,out=[];for(let i=0;i<n;i++){const drift=(Math.random()-.48)*base*.008;const open=price,close=price+drift;const high=Math.max(open,close)+Math.random()*base*.003;const low=Math.min(open,close)-Math.random()*base*.003;out.push({open,high,low,close,vol:Math.random()*80+20});price=close;}return out;}
+function mockDepth(base){let max=0;const asks=[...Array(10)].map((_,i)=>{const p=base+(9-i)*8.5,a=Math.random()*1.8+.05;max=Math.max(max,a);return{p,a};});const bids=[...Array(10)].map((_,i)=>{const p=base-(i+1)*8.5,a=Math.random()*1.8+.05;max=Math.max(max,a);return{p,a};});return {asks,bids};}
+
+/* ============ 真实 API 填充 + mock fallback ============ */
+
+/* K 线：优先 Binance → fallback mock */
+async function feedKline(tf, reloadOnly=false){
+  const symKey = CONFIG.currentSymbol;
+  const candles = await api.fetchKline(symKey, tf, 48);
   const c = CONFIG.chartBase();
-  const candles = genCandles(48, CONFIG.marketPrice-800);
-  const step = CONFIG.tfSec[tf] || 3600;
-  const t0 = Math.floor(Date.now()/1000) - step*(candles.length-1);
-  charts.klineCandle.setData(candles.map((x,i)=>({ time:t0+i*step, open:x.open, high:x.high, low:x.low, close:x.close })));
-  charts.klineVol.setData(candles.map((x,i)=>({ time:t0+i*step, value:x.vol, color:x.close>=x.open?'rgba(16,185,129,.35)':'rgba(239,68,68,.35)' })));
-  charts.klineMa.setData(candles.slice(9).map((_,i)=>({ time:t0+(i+9)*step, value:candles.slice(i,i+10).reduce((s,k)=>s+k.close,0)/10 })));
+  const data = candles || genCandles(48, CONFIG.marketPrice-800);
+  chartFillKline(data, c, tf, reloadOnly);
+  /* 同步最新价到 CONFIG（tick 卡片 / 表单引用） */
+  if(data.length){ CONFIG.marketPrice = data[data.length-1].close; }
+}
+/* 同步填充（供 feedAssetData 类似调用） */
+function chartFillKline(data, c, tf, reloadOnly){
+  charts.klineCandle.setData(data.map(x=>({ time:x.time, open:x.open, high:x.high, low:x.low, close:x.close })));
+  charts.klineVol.setData(data.map(x=>({ time:x.time, value:x.vol, color:x.close>=x.open?'rgba(16,185,129,.35)':'rgba(239,68,68,.35)' })));
+  /* MA10 从真实 close 序列算 */
+  const closes = data.map(x=>x.close);
+  charts.klineMa.setData(data.slice(9).map((_,i)=>({
+    time: data[i+9].time,
+    value: closes.slice(i,i+10).reduce((s,k)=>s+k,0)/10
+  })));
   if(!reloadOnly) charts.kline.timeScale().fitContent();
 }
 
-function feedAssetData(days){
-  const t0 = Math.floor(Date.now()/1000) - 86400*(days-1);
-  let v=CONFIG.assetTotal*0.9, data=[];
-  for(let i=0;i<days-1;i++){
-    v*=1+(Math.random()-.45)*.02;
-    data.push({ time:t0+i*86400, value:+v.toFixed(2) });
-  }
-  data.push({ time:t0+(days-1)*86400, value:CONFIG.assetTotal });
-  charts.assetSeries.setData(data);
-  charts.asset.timeScale().fitContent();
+/* 盘口：优先 Binance → fallback mock → renderDepth */
+async function feedDepth(symbol, ids){
+  const base = CONFIG.marketPrice || 70000;
+  const depth = await api.fetchDepth(symbol, 12) || mockDepth(base);
+  renderDepth(ids.asks, depth.asks, true);
+  renderDepth(ids.bids, depth.bids, false);
+  /* 中间价 + 移动端中间价 */
+  const mid = depth.bids[0]?.p || base;
+  document.getElementById('midPrice') && (document.getElementById('midPrice').textContent = mid.toLocaleString('en-US',{maximumFractionDigits:2}));
+  document.getElementById('midPriceMobile') && (document.getElementById('midPriceMobile').textContent = mid.toLocaleString('en-US',{maximumFractionDigits:2}));
 }
+function renderDepth(id, rows, isAsk){
+  const el=document.getElementById(id); if(!el) return;
+  let max=0; rows.forEach(r=>max=Math.max(max,r.a));
+  el.innerHTML = rows.slice(0,10).map(r=>{
+    const w = Math.min(100, r.a/max*100);
+    return `<div class="depth-row ${isAsk?'ask':'bid'}"><span class="p num">${r.p.toLocaleString('en-US',{minimumFractionDigits:1})}</span><span class="a num">${r.a.toFixed(4)}</span><span class="depth-bar" style="width:${w}%"></span></div>`;
+  }).join('');
+}
+
+/* 顶部行情条 + 资产行情列表：优先 Binance allTickers → fallback mock 生成 */
+async function feedTopStats(){
+  const t = await api.fetchTicker(CONFIG.currentSymbol);
+  if(!t){ /* mock fallback */
+    document.getElementById('lastPrice').textContent = CONFIG.marketPrice.toLocaleString('en-US',{maximumFractionDigits:2});
+    return;
+  }
+  CONFIG.marketPrice = t.lastPrice;
+  document.getElementById('lastPrice').textContent = t.lastPrice.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('chgBadge').textContent = `${t.priceChangePct>=0?'▲':'▼'} ${t.priceChangePct>=0?'+':''}${t.priceChangePct.toFixed(2)}%`;
+  document.getElementById('chgBadge').className = 'mt-chg ' + (t.priceChangePct>=0?'up':'down') + ' num';
+  document.getElementById('hi24').textContent = t.highPrice.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('lo24').textContent = t.lowPrice.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('vol24').textContent = Math.round(t.volume).toLocaleString();
+  /* 切换资产货币对（BTC/ETH 符号同步） */
+  const symCfg = CONFIG.symbolMap[CONFIG.currentSymbol];
+  document.getElementById('pairBtn').innerHTML = `${CONFIG.currentSymbol} / ${CONFIG.baseAsset} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="vertical-align:-1px"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+}
+
+async function feedMarketList(){
+  const all = await api.fetchAllTickers();
+  if(!all){ /* mock fallback：沿用 DATA.market 渲染 */
+    renderMarketList();
+    return;
+  }
+  /* 从 Binance 结果中按 CONFIG.symbolMap 取我们展示的 8 个 */
+  const rows = [];
+  Object.keys(CONFIG.symbolMap).forEach(coin=>{
+    const cfg = CONFIG.symbolMap[coin];
+    const hit = all.find(t=>t.sym===cfg.sym);
+    if(hit){
+      rows.push({ b:coin, n:cfg.disp, price:hit.last.toLocaleString('en-US',{maximumFractionDigits:2}), chg:hit.chgPct, vol:fmtVol(hit.quoteVolume) });
+    }
+  });
+  if(rows.length){
+    renderMarketListWith(rows);
+  } else {
+    renderMarketList(); /* fallback mock */
+  }
+}
+function fmtVol(v){
+  if(!v || v<=0) return '--';
+  if(v>=1e8) return (v/1e8).toFixed(2)+'亿';
+  if(v>=1e4) return Math.round(v/1e4)+'万';
+  return Math.round(v).toLocaleString();
+}
+function renderMarketListWith(rows){
+  document.getElementById('mktRows').innerHTML = rows.map(m=>`
+    <div class="mover-row" data-page="trade">
+      <div class="mover-coin"><div class="mover-sym">${m.b}</div><div class="mover-name">${m.n}</div></div>
+      <canvas class="spark mover-spark" data-up="${m.chg>=0?1:0}"></canvas>
+      <div class="mover-right">
+        <div class="mover-price num">${m.price}</div>
+        <div class="mover-chg ${m.chg>=0?'up':'down'} num">${m.chg>=0?'+':''}${m.chg.toFixed(2)}%</div>
+        <div class="t-caption num">${m.vol}</div>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('#mktRows .spark').forEach(drawSpark);
+}
+
+/* 资产走势：CoinGecko market_chart → 面积图 */
+async function feedAssetData(days){
+  const coin = CONFIG.symbolMap[CONFIG.currentSymbol]?.cg || 'bitcoin';
+  const data = await api.fetchAssetChart(coin, days);
+  if(!data){ /* mock fallback：原随机游走逻辑 */
+    const t0 = Math.floor(Date.now()/1000) - 86400*(days-1);
+    let v=CONFIG.assetTotal*0.9, fakedata=[];
+    for(let i=0;i<days-1;i++){ v*=1+(Math.random()-.45)*.02; fakedata.push({ time:t0+i*86400, value:+v.toFixed(2) }); }
+    fakedata.push({ time:t0+(days-1)*86400, value:CONFIG.assetTotal });
+    charts.assetSeries.setData(fakedata); charts.asset.timeScale().fitContent(); return;
+  }
+  charts.assetSeries.setData(data); charts.asset.timeScale().fitContent();
+}
+
+/* 轮询：15 秒刷新顶栏 + 盘口 + K 线最新一根 + 行情列表 */
+let pollTimer = null;
+function startPolling(){
+  if(pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(async ()=>{
+    await Promise.all([ feedTopStats(), feedDepth(CONFIG.currentSymbol, {asks:'asks', bids:'bids'}), feedKline(lastTf||'1h'), feedMarketList() ]);
+  }, CONFIG.pollIntervalMs);
+}
+/* 记住当前 TF 供轮询使用 */
+let lastTf = '1h';
 
 /* ---- 7. Sparkline（颜色从 CSS token 读取） ---- */
 function drawSpark(cv){
@@ -1163,21 +1383,22 @@ function bindEvents(){
     }
   });
 
-  /* K线周期 chip（容器级委托） */
-  document.getElementById('tfRow').addEventListener('click', e=>{
-    const c = e.target.closest('.tf-chip'); if(!c) return;
-    document.querySelectorAll('#tfRow .tf-chip').forEach(x=> x.classList.remove('active'));
-    c.classList.add('active');
-    feedKline(c.dataset.tf);
-  });
+/* K线周期切换 — 记住 lastTf 供轮询，真实 API 填充 */
+document.getElementById('tfRow').addEventListener('click', e=>{
+  const c = e.target.closest('.tf-chip'); if(!c) return;
+  document.querySelectorAll('#tfRow .tf-chip').forEach(x=> x.classList.remove('active'));
+  c.classList.add('active');
+  lastTf = c.dataset.tf;
+  feedKline(c.dataset.tf);
+});
 
-  /* 资产走势周期 chip */
-  document.getElementById('assetTfRow').addEventListener('click', e=>{
-    const c = e.target.closest('.tf-chip'); if(!c) return;
-    document.querySelectorAll('#assetTfRow .tf-chip').forEach(x=> x.classList.remove('active'));
-    c.classList.add('active');
-    feedAssetData(+c.dataset.days);
-  });
+/* 资产走势周期切换 — 真实 API (CoinGecko) 填充 */
+document.getElementById('assetTfRow').addEventListener('click', e=>{
+  const c = e.target.closest('.tf-chip'); if(!c) return;
+  document.querySelectorAll('#assetTfRow .tf-chip').forEach(x=> x.classList.remove('active'));
+  c.classList.add('active');
+  feedAssetData(+c.dataset.days);
+});
 
   /* 方向 tab（买/卖） */
   document.querySelectorAll('.dir-tab').forEach(t=> t.addEventListener('click', ()=>{
@@ -1243,29 +1464,35 @@ function bindEvents(){
   document.getElementById('pairBtn').addEventListener('click', ()=> alert('原型：币种选择'));
 }
 
-/* ---- 15. 启动 ---- */
-function init(){
+/* ---- 15. 启动（真实 API 链路 + mock fallback + 轮询） ---- */
+async function init(){
   renderNavigation();
   renderTimeframes('tfRow', CONFIG.timeframes.trade, 1, 'data-tf');
   renderTimeframes('assetTfRow', CONFIG.timeframes.asset, 1, 'data-days');
-  renderMarketList();
+  renderMarketList();                      // 先 mock 渲染占位，API 回来覆盖
   charts.init();
-  feedKline('1h');
-  feedAssetData(30);
-  buildDepth('asks', CONFIG.marketPrice, true);
-  buildDepth('bids', CONFIG.marketPrice, false);
-  if(document.getElementById('asksMobile')) buildDepth('asksMobile', CONFIG.marketPrice, true);
-  if(document.getElementById('bidsMobile')) buildDepth('bidsMobile', CONFIG.marketPrice, false);
-  if(document.getElementById('midPriceMobile')) document.getElementById('midPriceMobile').textContent = CONFIG.marketPrice.toLocaleString('en-US',{maximumFractionDigits:2});
-  renderOrders();
+  renderOrders();                          // 委托列表为静态展示
   formUpdateBalDisplay();
   formUpdateSubmitBtn();
   bindEvents();
   document.querySelectorAll('.spark').forEach(drawSpark);
-  /* 初始主题（从 localStorage 或默认）—— 在 charts.init 之后，确保颜色同步 */
+  /* 初始主题（在 charts.init 之后） */
   setTheme(localStorage.getItem('lotix-theme') || 'light');
   /* 默认页面 */
   switchPage('home');
+
+  /* ---- 并行拉取真实数据 ---- */
+  await Promise.all([
+    feedTopStats(),
+    feedKline('1h'),
+    feedDepth(CONFIG.currentSymbol, {asks:'asks', bids:'bids'}),
+    feedDepth(CONFIG.currentSymbol, {asks:'asksMobile', bids:'bidsMobile'}),
+    feedMarketList(),
+    feedAssetData(30)
+  ]);
+  /* 轮询启动 */
+  startPolling();
+
   /* 移动端初始隐藏 panel（图表默认） */
   if(window.innerWidth < 768) switchMobilePanel('kline');
 }

@@ -12,134 +12,145 @@ try{var _tm=localStorage.getItem('lotix-theme')||'light';document.documentElemen
 <title>LOTI Exchange · 现货交易</title>
 <style>
 /* =========================================================
-   视觉 Token — 8pt 间距系统 / 冷静蓝品牌 / 暖白底
+   VALR TradingView 终端风格 — 视觉 Token
+   保留品牌色，重新设计视觉层次
    ========================================================= */
 :root{
-  /* 品牌 — 冷静蓝（可信、专业、效率） */
+  /* 品牌 — 冷静蓝（不变） */
   --brand-50:#EFF6FF;
   --brand-100:#DBEAFE;
   --brand-200:#BFDBFE;
   --brand-500:#3B82F6;
   --brand-600:#2563EB;
   --brand-700:#1D4ED8;
-  --brand-main:var(--brand-600);        /* 品牌主色 */
+  --brand-main:var(--brand-600);
   --brand-hover:var(--brand-700);
   --brand-soft:var(--brand-50);
 
   /* 状态色 */
-  --success:#10B981;  /* 绿涨 */
-  --warning:#F59E0B;  /* 琥珀提醒 */
-  --error:#EF4444;    /* 红跌 / 风险 */
-  --info:#06B6D4;     /* 青蓝中性 */
+  --success:#10B981;
+  --warning:#F59E0B;
+  --error:#EF4444;
+  --info:#06B6D4;
 
-  /* 背景 */
-  --bg-base:#FAFAF8;         /* 暖白基底 — 全站底色 */
-  --bg-surface:#FFFFFF;      /* 卡片表面 */
-  --bg-raised:#FFFFFF;       /* 浮层表面 */
-  --bg-muted:#F4F4F0;        /* 次级填充（输入框/分段控件底） */
-  --bg-highlight:#EFF6FF;    /* 品牌高亮区 */
+  /* VALR 风格背景 — 更冷的灰阶 */
+  --bg-base:#FAFAF8;
+  --bg-surface:#FFFFFF;
+  --bg-raised:#FFFFFF;
+  --bg-muted:#F5F5F4;
+  --bg-highlight:#EFF6FF;
+  --bg-panel:#FAFAFA;
 
-  /* 文本（五级层级） */
-  --text-1:#0F172A;          /* L1 主标题 / 关键数据 */
-  --text-2:#334155;          /* L2 模块标题 */
-  --text-3:#64748B;          /* L3 正文说明 */
-  --text-4:#94A3B8;          /* L4 辅助说明 / 注释 */
-  --text-5:#CBD5E1;          /* L5 占位符 / 禁用 */
+  /* 文本 — 收紧字重 */
+  --text-1:#0F172A;
+  --text-2:#334155;
+  --text-3:#64748B;
+  --text-4:#94A3B8;
+  --text-5:#CBD5E1;
 
-  /* 边框与分割线 */
-  --border-1:#E5E7EB;        /* 卡片描边 */
-  --border-2:#D1D5DB;        /* 输入框描边 */
-  --border-3:#CBD5E1;        /* 强描边 */
+  /* 边框 — 1px 细线为主 */
+  --border-1:#E5E7EB;
+  --border-2:#D1D5DB;
+  --border-3:#CBD5E1;
 
-  /* 阴影（仅浮层与弹层） */
-  --shadow-xs:0 1px 2px rgba(15,23,42,.04);
-  --shadow-sm:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
-  --shadow-md:0 4px 10px rgba(15,23,42,.08),0 2px 4px rgba(15,23,42,.04);
-  --shadow-lg:0 12px 30px rgba(15,23,42,.12),0 4px 8px rgba(15,23,42,.06);
+  /* VALR 极轻阴影 — 仅浮层 */
+  --shadow-xs:0 1px 2px rgba(15,23,42,.03);
+  --shadow-sm:0 1px 3px rgba(15,23,42,.04);
+  --shadow-md:0 4px 10px rgba(15,23,42,.06);
+  --shadow-lg:0 12px 30px rgba(15,23,42,.08);
 
-  /* 8pt 间距 token */
+  /* 8pt 间距 */
   --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px;
   --sp-5:20px; --sp-6:24px; --sp-8:32px; --sp-10:40px; --sp-12:48px;
 
-  /* 圆角 */
-  --r-xs:6px;   /* 小组件：chip */
-  --r-sm:8px;   /* 按钮 / 输入框 */
-  --r-md:12px;  /* 卡片 */
-  --r-lg:16px;  /* 大卡 / Hero */
-  --r-pill:999px;
+  /* 圆角 — VALR 偏方正 */
+  --r-xs:4px;
+  --r-sm:6px;
+  --r-md:8px;
+  --r-lg:10px;
+  --r-pill:2px;
 
   /* 安全区 */
   --sat:env(safe-area-inset-top,0px);
   --sab:env(safe-area-inset-bottom,0px);
 
-  /* 动效时长与缓动（统一节奏） */
-  --ease-out:cubic-bezier(.22,1,.36,1);     /* 元素离开 / 状态切换 */
-  --ease-in-out:cubic-bezier(.4,0,.2,1);    /* 进入容器 / 展开 */
-  --ease-bounce:cubic-bezier(.34,1.56,.64,1); /* 微弹跳（chip/tab） */
-  --dur-fast:120ms;    /* 按压、hover、focus */
-  --dur-normal:200ms;  /* 状态切换 */
-  --dur-slow:320ms;    /* 卡片展开、容器过渡 */
+  /* 动效 — VALR 更快 */
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-in-out:cubic-bezier(.4,0,.2,1);
+  --dur-fast:100ms;
+  --dur-normal:160ms;
+  --dur-slow:240ms;
 
-  /* 排版 token（五级层级 + 行高） */
-  --fs-h1:24px;   --lh-h1:1.2;  --fw-h1:800;  /* 页面主标题 */
-  --fs-h2:18px;   --lh-h2:1.3;  --fw-h2:700;  /* 模块标题 */
-  --fs-h3:15px;   --lh-h3:1.4;  --fw-h3:600;  /* 卡片标题 */
-  --fs-body:14px; --lh-body:1.5; --fw-body:400; /* 正文 */
-  --fs-capt:12px; --lh-capt:1.4; --fw-capt:400; /* 辅助 */
-  --fs-mono:13px; --fw-mono:600;                /* 数字 */
+  /* 排版 — 终端风格 */
+  --fs-h1:20px;   --lh-h1:1.2;  --fw-h1:700;
+  --fs-h2:15px;   --lh-h2:1.3;  --fw-h2:600;
+  --fs-h3:13px;   --lh-h3:1.4;  --fw-h3:600;
+  --fs-body:13px; --lh-body:1.5; --fw-body:400;
+  --fs-capt:11px; --lh-capt:1.4; --fw-capt:400;
+  --fs-mono:12px; --fw-mono:500;
 
-  /* 数据可视化色阶（统一图表/条形图/sparkline 颜色来源） */
+  /* 数据可视化色阶 */
   --viz-up:#10B981;
   --viz-down:#EF4444;
   --viz-primary:var(--brand-main);
-  --viz-primary-soft:rgba(37,99,235,.15);
+  --viz-primary-soft:rgba(37,99,235,.12);
   --viz-success:var(--success);
   --viz-error:var(--error);
-  --viz-alt-1:#F59E0B;   /* BTC 金 */
-  --viz-alt-2:#6366F1;   /* ETH 靛蓝 */
+  --viz-alt-1:#F59E0B;
+  --viz-alt-2:#6366F1;
 }
 
-/* 暗色主题（保留 VALR 品牌一致性，以蓝灰基调为主） */
+/* 暗色主题 — VALR 深终端风格 */
 [data-theme="dark"]{
   --bg-base:#0B0E14;
   --bg-surface:#141821;
   --bg-raised:#1C2230;
-  --bg-muted:#1C2230;
-  --bg-highlight:rgba(59,130,246,.12);
+  --bg-muted:#1A1F2B;
+  --bg-highlight:rgba(59,130,246,.08);
+  --bg-panel:#0F131B;
   --text-1:#F8FAFC;
   --text-2:#CBD5E1;
-  --text-3:#94A3B8;
-  --text-4:#64748B;
-  --text-5:#475569;
+  --text-3:#8896A8;
+  --text-4:#5E6B7D;
+  --text-5:#3E4A5C;
   --border-1:#1E2530;
-  --border-2:#2A3240;
-  --border-3:#3B4657;
-  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
-  --shadow-sm:0 1px 3px rgba(0,0,0,.5);
-  --shadow-md:0 4px 10px rgba(0,0,0,.6);
-  --shadow-lg:0 12px 30px rgba(0,0,0,.7);
+  --border-2:#262D3A;
+  --border-3:#323B4C;
+  --shadow-xs:none;
+  --shadow-sm:none;
+  --shadow-md:none;
+  --shadow-lg:none;
 }
 
+/* =========================================================
+   Reset & Base
+   ========================================================= */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%;background:var(--bg-base);color:var(--text-1)}
 body{
   background:var(--bg-base);
   color:var(--text-1);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   min-height:100vh;
   overscroll-behavior-y:none;
+  letter-spacing:-.01em;
   transition:background-color var(--dur-slow) var(--ease-in-out),color var(--dur-slow) var(--ease-in-out);
 }
-.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.num{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;font-feature-settings:"tnum";letter-spacing:0}
 
 /* =========================================================
-   通用组件库
+   通用组件库 — VALR 终端风格
    ========================================================= */
-.card{background:var(--bg-surface);border:1px solid var(--border-1);border-radius:var(--r-md);box-shadow:var(--shadow-xs);padding:var(--sp-4)}
-.card-sm{padding:var(--sp-3)}
-.card-lg{padding:var(--sp-5)}
+.card{
+  background:var(--bg-surface);
+  border:1px solid var(--border-1);
+  border-radius:var(--r-md);
+  padding:var(--sp-3);
+}
+.card-sm{padding:var(--sp-2)}
+.card-lg{padding:var(--sp-4)}
 .page{display:none}
 .page.active{display:contents}
 
@@ -148,13 +159,13 @@ body{
 .down-color{color:var(--error)!important}
 .muted-color{color:var(--text-3)!important}
 .right-align{text-align:right}
-.sec-title-tight{padding:var(--sp-2) var(--sp-2) 0}
+.sec-title-tight{padding:var(--sp-1) var(--sp-1) 0}
 .mt-tight{margin-top:var(--sp-2)}
 
 /* 标签变体 */
-.tag-info{background:rgba(6,182,212,.1);color:var(--info)!important}
-.tag-neutral{background:var(--bg-muted);color:var(--text-3)!important}
-.tag-chain{background:rgba(139,92,246,.1);color:#8B5CF6!important}
+.tag-info{background:rgba(6,182,212,.08);color:var(--info)!important;font-weight:600}
+.tag-neutral{background:var(--bg-muted);color:var(--text-3)!important;font-weight:500}
+.tag-chain{background:rgba(139,92,246,.08);color:#8B5CF6!important;font-weight:600}
 
 /* 条形图填充色 */
 .bar-usdt{background:linear-gradient(90deg,var(--brand-500),var(--brand-700))}
@@ -162,7 +173,7 @@ body{
 .bar-eth{background:linear-gradient(90deg,var(--viz-alt-2),#4F46E5)}
 .bar-usdc{background:linear-gradient(90deg,#22C55E,#16A34A)}
 
-/* 通用工具类 */
+/* 工具类 */
 .hidden{display:none!important}
 .sp-3{padding:var(--sp-3)}
 .sp-4{padding:var(--sp-4)}
@@ -177,291 +188,587 @@ body{
 .width-56{width:56%}
 .width-16{width:16%}
 
-/* 标题层级 */
-.t-h1{font-size:24px;font-weight:800;color:var(--text-1);letter-spacing:-.02em;line-height:1.2}
-.t-h2{font-size:18px;font-weight:700;color:var(--text-1);letter-spacing:-.01em;line-height:1.3}
-.t-h3{font-size:15px;font-weight:600;color:var(--text-1);line-height:1.4}
-.t-body{font-size:14px;font-weight:400;color:var(--text-2);line-height:1.5}
-.t-caption{font-size:12px;font-weight:400;color:var(--text-4);line-height:1.4}
+/* 标题层级 — VALR 更紧凑 */
+.t-h1{font-size:20px;font-weight:700;color:var(--text-1);letter-spacing:-.02em;line-height:1.2}
+.t-h2{font-size:15px;font-weight:600;color:var(--text-1);letter-spacing:-.01em;line-height:1.3}
+.t-h3{font-size:13px;font-weight:600;color:var(--text-1);line-height:1.4}
+.t-body{font-size:13px;font-weight:400;color:var(--text-2);line-height:1.5}
+.t-caption{font-size:11px;font-weight:400;color:var(--text-4);line-height:1.4;letter-spacing:.01em}
 .t-mono{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
 
-/* 按钮（三级） */
-.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:42px;padding:0 20px;border-radius:var(--r-sm);background:var(--brand-main);color:#fff;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:background var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-bounce),box-shadow var(--dur-normal) var(--ease-out)}
-.btn-primary:hover{background:var(--brand-hover);box-shadow:var(--shadow-md)}
-.btn-primary:active{transform:scale(.97);filter:brightness(.95)}
-.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:42px;padding:0 20px;border-radius:var(--r-sm);background:var(--bg-surface);border:1px solid var(--border-2);color:var(--text-1);font-size:14px;font-weight:600;cursor:pointer;transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)}
-.btn-secondary:hover{background:var(--bg-muted);border-color:var(--brand-main);box-shadow:var(--shadow-xs)}
-.btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 14px;border-radius:var(--r-sm);background:transparent;color:var(--text-3);font-size:13px;font-weight:500;cursor:pointer;transition:color var(--dur-fast) var(--ease-out)}
-.btn-ghost:hover{color:var(--brand-main)}
+/* =========================================================
+   按钮 — VALR 终端扁平风格
+   ========================================================= */
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:38px;padding:0 16px;
+  border-radius:var(--r-sm);
+  background:var(--brand-main);color:#fff;
+  font-size:13px;font-weight:600;
+  cursor:pointer;border:none;
+  transition:background var(--dur-fast) var(--ease-out);
+}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-primary:active{filter:brightness(.92)}
+.btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:38px;padding:0 16px;
+  border-radius:var(--r-sm);
+  background:transparent;border:1px solid var(--border-2);
+  color:var(--text-1);
+  font-size:13px;font-weight:500;
+  cursor:pointer;
+  transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);
+}
+.btn-secondary:hover{background:var(--bg-muted);border-color:var(--border-3)}
+.btn-ghost{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:32px;padding:0 10px;
+  border-radius:var(--r-sm);
+  background:transparent;color:var(--text-4);
+  font-size:12px;font-weight:500;
+  cursor:pointer;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.btn-ghost:hover{color:var(--text-1)}
 
-/* 方向按钮（交易买入绿 / 卖出红） */
 .btn-buy{background:var(--success)}
-.btn-buy:hover{filter:brightness(.95)}
+.btn-buy:hover{filter:brightness(.93)}
 .btn-sell{background:var(--error)}
-.btn-sell:hover{filter:brightness(.95)}
+.btn-sell:hover{filter:brightness(.93)}
 
-/* Chip / Tab */
-.chip{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:var(--r-pill);font-size:12px;font-weight:600;white-space:nowrap}
-.chip-up{background:rgba(16,185,129,.1);color:var(--success)}
-.chip-down{background:rgba(239,68,68,.1);color:var(--error)}
+/* =========================================================
+   Chip / Tab — 终端风格
+   ========================================================= */
+.chip{
+  display:inline-flex;align-items:center;height:22px;padding:0 8px;
+  border-radius:var(--r-xs);
+  font-size:11px;font-weight:600;white-space:nowrap;
+  letter-spacing:.01em;
+}
+.chip-up{background:rgba(16,185,129,.08);color:var(--success)}
+.chip-down{background:rgba(239,68,68,.08);color:var(--error)}
 .chip-info{background:var(--brand-soft);color:var(--brand-main)}
 .chip-muted{background:var(--bg-muted);color:var(--text-3)}
 
-/* 周期 chip */
-.tf-chip{height:32px;padding:0 12px;border-radius:var(--r-xs);font-size:13px;font-weight:500;cursor:pointer;background:var(--bg-muted);border:1px solid transparent;color:var(--text-3);transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-normal) var(--ease-out);flex:none;white-space:nowrap}
-.tf-chip:hover{color:var(--text-1)}
-.tf-chip.active{background:var(--brand-main);border-color:var(--brand-main);color:#fff;font-weight:600;box-shadow:0 2px 6px rgba(37,99,235,.25)}
+/* 周期 chip — VALR 更紧凑 */
+.tf-chip{
+  height:28px;padding:0 10px;
+  border-radius:var(--r-xs);
+  font-size:12px;font-weight:500;
+  cursor:pointer;
+  background:transparent;border:1px solid transparent;
+  color:var(--text-3);
+  transition:color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);
+  flex:none;white-space:nowrap;letter-spacing:.01em;
+}
+.tf-chip:hover{color:var(--text-1);background:var(--bg-muted)}
+.tf-chip.active{
+  background:var(--brand-main);border-color:var(--brand-main);
+  color:#fff;font-weight:600;
+}
 
-/* 输入框 */
-.input{width:100%;height:46px;padding:0 14px;border:1px solid var(--border-2);border-radius:var(--r-sm);background:var(--bg-muted);color:var(--text-1);font-size:16px;font-weight:600;outline:none;transition:border-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out);-webkit-appearance:none;appearance:none}
-.input::placeholder{color:var(--text-5);font-weight:400}
-.input:focus{border-color:var(--brand-main);box-shadow:0 0 0 3px rgba(37,99,235,.12);background:var(--bg-surface)}
+/* =========================================================
+   输入框 — VALR 终端风格
+   ========================================================= */
+.input{
+  width:100%;height:40px;padding:0 12px;
+  border:1px solid var(--border-2);
+  border-radius:var(--r-sm);
+  background:var(--bg-base);color:var(--text-1);
+  font-size:14px;font-weight:600;
+  outline:none;
+  transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out);
+  -webkit-appearance:none;appearance:none;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums;
+}
+.input::placeholder{color:var(--text-5);font-weight:400;font-family:'Inter',sans-serif}
+.input:focus{border-color:var(--brand-main);background:var(--bg-surface)}
 
 /* =========================================================
    全局布局
    ========================================================= */
-.app{padding-top:var(--sat);padding-bottom:calc(68px + var(--sab))}
-.body{padding:var(--sp-4);display:flex;flex-direction:column;gap:var(--sp-4);max-width:1440px;margin:0 auto}
+.app{padding-top:var(--sat);padding-bottom:calc(56px + var(--sab))}
+.body{padding:var(--sp-3);display:flex;flex-direction:column;gap:var(--sp-3);max-width:1440px;margin:0 auto}
 .sidebar{display:none}
 
 /* =========================================================
-   移动端顶部行情条（紧凑单行）
+   移动端顶部行情条 — VALR 紧凑单行
    ========================================================= */
-.mt-bar{background:var(--bg-surface);border-bottom:1px solid var(--border-1);padding:var(--sp-3) var(--sp-4)}
-.mt-row{display:flex;align-items:center;gap:var(--sp-3)}
-.mt-coin{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#D97706);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px;flex:none}
+.mt-bar{
+  background:var(--bg-surface);
+  border-bottom:1px solid var(--border-1);
+  padding:var(--sp-2) var(--sp-3);
+}
+.mt-row{display:flex;align-items:center;gap:var(--sp-2)}
+.mt-coin{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,#F59E0B,#D97706);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:#fff;font-size:13px;flex:none;
+}
 .mt-info{flex:1;min-width:0}
-.mt-pair{font-size:16px;font-weight:700;color:var(--text-1);display:flex;align-items:center;gap:4px;cursor:pointer}
-.mt-sub{font-size:11px;color:var(--text-4);margin-top:2px}
-.mt-actions{display:flex;gap:2px}
-.mt-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:var(--text-4);cursor:pointer;border-radius:var(--r-sm)}
+.mt-pair{
+  font-size:14px;font-weight:600;color:var(--text-1);
+  display:flex;align-items:center;gap:3px;cursor:pointer;
+  letter-spacing:-.01em;
+}
+.mt-sub{font-size:10px;color:var(--text-4);margin-top:1px;letter-spacing:.01em}
+.mt-actions{display:flex;gap:1px}
+.mt-icon{
+  width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-4);cursor:pointer;border-radius:var(--r-xs);
+}
 .mt-icon:active{background:var(--bg-muted)}
 .mt-icon.active{color:var(--brand-main)}
-.mt-price-row{display:flex;align-items:baseline;gap:var(--sp-3);margin-top:var(--sp-2)}
-.mt-price{font-size:28px;font-weight:800;color:var(--text-1);letter-spacing:-.02em;line-height:1}
-.mt-chg{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:var(--r-pill);font-size:12px;font-weight:600}
-.mt-chg.up{background:rgba(16,185,129,.1);color:var(--success)}
-.mt-chg.down{background:rgba(239,68,68,.1);color:var(--error)}
-.mt-stats{display:flex;gap:var(--sp-4);margin-top:var(--sp-2);font-size:11px;color:var(--text-4)}
-.mt-stats b{color:var(--text-1);font-weight:600;margin-left:4px}
+.mt-price-row{display:flex;align-items:baseline;gap:var(--sp-2);margin-top:var(--sp-1)}
+.mt-price{
+  font-size:22px;font-weight:700;color:var(--text-1);
+  letter-spacing:-.02em;line-height:1;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.mt-chg{
+  display:inline-flex;align-items:center;height:22px;padding:0 8px;
+  border-radius:var(--r-xs);
+  font-size:11px;font-weight:600;letter-spacing:.01em;
+}
+.mt-chg.up{background:rgba(16,185,129,.08);color:var(--success)}
+.mt-chg.down{background:rgba(239,68,68,.08);color:var(--error)}
+.mt-stats{
+  display:flex;gap:var(--sp-3);margin-top:var(--sp-1);
+  font-size:10px;color:var(--text-4);letter-spacing:.01em;
+}
+.mt-stats b{color:var(--text-2);font-weight:500;margin-left:3px}
 
 /* =========================================================
-   首页 — Dashboard（数据优先）
+   首页 — Dashboard
    ========================================================= */
-/* 统计卡行（2×2 grid） */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3)}
-.stat-card{background:var(--bg-surface);border:1px solid var(--border-1);border-radius:var(--r-md);padding:var(--sp-4)}
-.stat-label{font-size:12px;color:var(--text-4);font-weight:500}
-.stat-value{font-size:22px;font-weight:800;color:var(--text-1);margin-top:4px;letter-spacing:-.01em}
-.stat-sub{font-size:12px;margin-top:4px;font-weight:500}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2)}
+.stat-card{
+  background:var(--bg-surface);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:var(--sp-3);
+}
+.stat-label{font-size:10px;color:var(--text-4);font-weight:500;letter-spacing:.02em;text-transform:uppercase}
+.stat-value{
+  font-size:18px;font-weight:700;color:var(--text-1);margin-top:3px;
+  letter-spacing:-.01em;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.stat-sub{font-size:10px;margin-top:2px;font-weight:500;letter-spacing:.01em}
 .stat-sub.up{color:var(--success)}
 .stat-sub.down{color:var(--error)}
 
-/* Hero 卡（蓝色顶条，不用全色渐变 — 更轻量） */
-.hero-card{background:var(--bg-surface);border:1px solid var(--border-1);border-radius:var(--r-lg);padding:var(--sp-5) var(--sp-4);position:relative;overflow:hidden}
-.hero-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--brand-500),var(--brand-700))}
-.hero-label{font-size:13px;color:var(--text-4);font-weight:500}
-.hero-total{font-size:34px;font-weight:800;color:var(--text-1);letter-spacing:-.02em;margin-top:6px;line-height:1}
-.hero-pnl{font-size:13px;color:var(--text-3);margin-top:6px}
+/* Hero 卡 — VALR 终端风格 */
+.hero-card{
+  background:var(--bg-surface);
+  border:1px solid var(--border-1);
+  border-radius:var(--r-md);
+  padding:var(--sp-4);
+  position:relative;overflow:hidden;
+}
+.hero-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--brand-main);
+}
+.hero-label{font-size:11px;color:var(--text-4);font-weight:500;letter-spacing:.02em;text-transform:uppercase}
+.hero-total{
+  font-size:28px;font-weight:700;color:var(--text-1);
+  letter-spacing:-.02em;margin-top:4px;line-height:1;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.hero-pnl{font-size:12px;color:var(--text-3);margin-top:4px;letter-spacing:.01em}
 .hero-pnl.up{color:var(--success)}
 .hero-pnl.down{color:var(--error)}
-.hero-btns{display:flex;gap:var(--sp-2);margin-top:var(--sp-4)}
+.hero-btns{display:flex;gap:var(--sp-2);margin-top:var(--sp-3)}
 
-/* 快捷入口（横滑） */
-.quick-scroll{display:flex;gap:var(--sp-3);overflow-x:auto;scrollbar-width:none;padding:2px 0}
+/* 快捷入口 */
+.quick-scroll{display:flex;gap:var(--sp-2);overflow-x:auto;scrollbar-width:none;padding:2px 0}
 .quick-scroll::-webkit-scrollbar{display:none}
-.quick-item{flex:none;width:88px;display:flex;flex-direction:column;align-items:center;gap:var(--sp-2);padding:var(--sp-3) var(--sp-2);cursor:pointer}
-.quick-item:active{opacity:.7}
-.quick-ic{width:44px;height:44px;border-radius:var(--r-md);background:var(--brand-soft);display:flex;align-items:center;justify-content:center}
-.quick-ic svg{width:22px;height:22px;color:var(--brand-main)}
-.quick-label{font-size:11px;color:var(--text-3);font-weight:500;text-align:center}
+.quick-item{flex:none;width:72px;display:flex;flex-direction:column;align-items:center;gap:var(--sp-1);padding:var(--sp-2) var(--sp-2);cursor:pointer}
+.quick-item:active{opacity:.6}
+.quick-ic{
+  width:36px;height:36px;
+  border-radius:var(--r-sm);
+  background:var(--bg-muted);
+  display:flex;align-items:center;justify-content:center;
+}
+.quick-ic svg{width:18px;height:18px;color:var(--brand-main)}
+.quick-label{font-size:10px;color:var(--text-3);font-weight:500;text-align:center;letter-spacing:.01em}
 
 /* 模块标题栏 */
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-3)}
-.sec-title{font-size:15px;font-weight:700;color:var(--text-1)}
-.sec-more{font-size:12px;color:var(--brand-main);font-weight:600;cursor:pointer}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-2)}
+.sec-title{font-size:13px;font-weight:600;color:var(--text-1);letter-spacing:.01em}
+.sec-more{font-size:11px;color:var(--text-3);font-weight:500;cursor:pointer;letter-spacing:.01em}
 
-/* 市场热门（列表卡） */
-.mover-list{display:flex;flex-direction:column;gap:var(--sp-2)}
-.mover-row{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);background:var(--bg-surface);border:1px solid var(--border-1);border-radius:var(--r-sm);cursor:pointer}
+/* 市场热门 */
+.mover-list{display:flex;flex-direction:column;gap:0}
+.mover-row{
+  display:flex;align-items:center;gap:var(--sp-2);
+  padding:var(--sp-2) var(--sp-3);
+  background:var(--bg-surface);
+  border:1px solid var(--border-1);
+  border-radius:var(--r-sm);
+  cursor:pointer;
+  margin-bottom:var(--sp-1);
+}
 .mover-row:active{background:var(--bg-muted)}
-.mover-coin{min-width:64px}
-.mover-sym{font-size:14px;font-weight:700;color:var(--text-1)}
-.mover-name{font-size:11px;color:var(--text-4);margin-top:1px}
-.mover-spark{flex:1;min-width:60px}
-.mover-right{text-align:right;min-width:80px}
-.mover-price{font-size:13px;font-weight:600;color:var(--text-1)}
-.mover-chg{font-size:12px;font-weight:600;margin-top:2px}
+.mover-coin{min-width:56px}
+.mover-sym{font-size:13px;font-weight:700;color:var(--text-1);letter-spacing:-.01em}
+.mover-name{font-size:10px;color:var(--text-4);margin-top:0}
+.mover-spark{flex:1;min-width:48px}
+.mover-right{text-align:right;min-width:72px}
+.mover-price{
+  font-size:12px;font-weight:600;color:var(--text-1);
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.mover-chg{font-size:11px;font-weight:600;margin-top:1px;letter-spacing:.01em}
 .mover-chg.up{color:var(--success)}.mover-chg.down{color:var(--error)}
 
-/* 理财推荐卡 */
-.rec-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+/* 理财推荐 */
+.rec-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-2)}
 @media (min-width:640px){.rec-grid{grid-template-columns:1fr 1fr}}
-.rec-card{background:var(--bg-surface);border:1px solid var(--border-1);border-radius:var(--r-md);padding:var(--sp-4)}
+.rec-card{
+  background:var(--bg-surface);border:1px solid var(--border-1);
+  border-radius:var(--r-md);padding:var(--sp-3);
+}
 .rec-head{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-2)}
-.rec-name{font-size:14px;font-weight:600;color:var(--text-1)}
-.rec-tag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:var(--r-xs);background:var(--brand-soft);color:var(--brand-main)}
-.rec-apy{font-size:26px;font-weight:800;color:var(--success);letter-spacing:-.02em;margin-top:var(--sp-2)}
-.rec-apy small{font-size:11px;color:var(--text-4);font-weight:500;margin-left:4px}
-.rec-meta{font-size:11px;color:var(--text-4);margin-top:4px}
-.rec-btn{width:100%;height:38px;margin-top:var(--sp-3);border-radius:var(--r-sm);background:var(--brand-main);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer}
-.rec-btn:active{filter:brightness(.95)}
+.rec-name{font-size:13px;font-weight:600;color:var(--text-1)}
+.rec-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:var(--r-xs);background:var(--brand-soft);color:var(--brand-main)}
+.rec-apy{
+  font-size:22px;font-weight:700;color:var(--success);letter-spacing:-.02em;margin-top:var(--sp-1);
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.rec-apy small{font-size:10px;color:var(--text-4);font-weight:500;margin-left:2px;font-family:'Inter',sans-serif}
+.rec-meta{font-size:10px;color:var(--text-4);margin-top:2px;letter-spacing:.01em}
+.rec-btn{
+  width:100%;height:34px;margin-top:var(--sp-2);
+  border-radius:var(--r-sm);background:var(--brand-main);
+  color:#fff;font-size:12px;font-weight:600;
+  border:none;cursor:pointer;letter-spacing:.01em;
+}
+.rec-btn:active{filter:brightness(.93)}
 
 /* =========================================================
-   行情页 — 紧凑列表 + 分类 tab
+   行情页
    ========================================================= */
-.mkt-tabs{display:flex;gap:var(--sp-2);overflow-x:auto;scrollbar-width:none;padding:2px;margin-bottom:var(--sp-3)}
+.mkt-tabs{display:flex;gap:var(--sp-1);overflow-x:auto;scrollbar-width:none;padding:1px;margin-bottom:var(--sp-2)}
 .mkt-tabs::-webkit-scrollbar{display:none}
-.mkt-tab{flex:none;height:32px;padding:0 14px;border-radius:var(--r-pill);background:var(--bg-muted);font-size:13px;color:var(--text-3);font-weight:500;cursor:pointer;white-space:nowrap}
+.mkt-tab{
+  flex:none;height:28px;padding:0 12px;
+  border-radius:var(--r-xs);
+  background:var(--bg-muted);
+  font-size:12px;color:var(--text-3);font-weight:500;
+  cursor:pointer;white-space:nowrap;letter-spacing:.01em;
+}
 .mkt-tab.active{background:var(--brand-main);color:#fff;font-weight:600}
-.mkt-search{display:flex;align-items:center;gap:var(--sp-2);padding:0 var(--sp-3);height:40px;background:var(--bg-muted);border-radius:var(--r-sm);margin-bottom:var(--sp-3)}
-.mkt-search svg{width:16px;height:16px;color:var(--text-4)}
-.mkt-search input{flex:1;background:transparent;border:none;outline:none;font-size:14px;color:var(--text-1);font-weight:500}
+.mkt-search{
+  display:flex;align-items:center;gap:var(--sp-2);
+  padding:0 var(--sp-2);height:36px;
+  background:var(--bg-muted);
+  border-radius:var(--r-sm);margin-bottom:var(--sp-2);
+}
+.mkt-search svg{width:14px;height:14px;color:var(--text-4)}
+.mkt-search input{
+  flex:1;background:transparent;border:none;outline:none;
+  font-size:13px;color:var(--text-1);font-weight:500;
+}
 .mkt-search input::placeholder{color:var(--text-5);font-weight:400}
 
 /* =========================================================
-   交易页 — TradingView 终端逻辑
+   交易页 — VALR TradingView 终端布局
    ========================================================= */
-/* 移动端：K线/表单 tab 切换 */
+/* 移动端 panel 切换 */
 .trade-switch{display:none}
 @media (max-width:767px){
-  .trade-switch{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2);padding:var(--sp-2);background:var(--bg-muted);border:1px solid var(--border-1);border-radius:var(--r-sm);margin-bottom:var(--sp-3)}
-  .ts-item{height:36px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-xs);font-size:13px;color:var(--text-3);font-weight:500;cursor:pointer}
-  .ts-item.active{background:var(--bg-surface);color:var(--text-1);font-weight:600;box-shadow:var(--shadow-xs)}
+  .trade-switch{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;
+    padding:1px;background:var(--border-1);
+    border:1px solid var(--border-1);border-radius:var(--r-sm);
+    margin-bottom:var(--sp-2);
+  }
+  .ts-item{
+    height:32px;display:flex;align-items:center;justify-content:center;
+    border-radius:var(--r-xs);
+    font-size:12px;color:var(--text-4);font-weight:500;
+    cursor:pointer;background:var(--bg-surface);
+    letter-spacing:.01em;
+  }
+  .ts-item.active{background:var(--brand-main);color:#fff;font-weight:600}
 }
 
 /* K线卡 */
-.kline-card{padding:var(--sp-3)}
-.tf-row{display:flex;gap:var(--sp-2);overflow-x:auto;scrollbar-width:none;padding:2px;margin-bottom:var(--sp-2)}
+.kline-card{padding:var(--sp-2)}
+.tf-row{display:flex;gap:var(--sp-1);overflow-x:auto;scrollbar-width:none;padding:1px;margin-bottom:var(--sp-1)}
 .tf-row::-webkit-scrollbar{display:none}
-#kline{width:100%;height:320px;display:block;touch-action:pan-y}
+#kline{width:100%;height:300px;display:block;touch-action:pan-y}
 
-/* 盘口深度 */
-.depth-head{display:flex;justify-content:space-between;font-size:11px;color:var(--text-4);padding:4px var(--sp-2);font-weight:500}
-.depth-row{position:relative;display:flex;justify-content:space-between;height:26px;align-items:center;padding:0 var(--sp-2);font-size:12px}
-.depth-row .p{font-weight:600;position:relative;z-index:1;font-family:"JetBrains Mono",ui-monospace,monospace}
-.depth-row .a{color:var(--text-3);position:relative;z-index:1;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px}
+/* 盘口深度 — VALR 终端风格 */
+.depth-head{
+  display:flex;justify-content:space-between;
+  font-size:10px;color:var(--text-4);padding:4px var(--sp-2);
+  font-weight:500;letter-spacing:.02em;text-transform:uppercase;
+  border-bottom:1px solid var(--border-1);
+}
+.depth-row{
+  position:relative;display:flex;justify-content:space-between;
+  height:24px;align-items:center;padding:0 var(--sp-2);
+  font-size:12px;letter-spacing:0;
+}
+.depth-row .p{
+  font-weight:600;position:relative;z-index:1;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.depth-row .a{
+  color:var(--text-3);position:relative;z-index:1;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:11px;
+}
 .depth-row.ask .p{color:var(--error)}
 .depth-row.bid .p{color:var(--success)}
-.depth-bar{position:absolute;top:1px;bottom:1px;right:0;opacity:.12;border-radius:2px}
+.depth-bar{position:absolute;top:1px;bottom:1px;right:0;opacity:.15;border-radius:1px}
 .ask .depth-bar{background:var(--error)}
 .bid .depth-bar{background:var(--success)}
-.depth-mid{display:flex;justify-content:space-between;align-items:center;padding:var(--sp-2) var(--sp-2);margin:var(--sp-1) 0;border-top:1px solid var(--border-1);border-bottom:1px solid var(--border-1);background:var(--bg-muted)}
-.depth-mid .mp{font-size:15px;font-weight:700;color:var(--text-1);font-family:"JetBrains Mono",ui-monospace,monospace}
+.depth-mid{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:var(--sp-1) var(--sp-2);margin:var(--sp-1) 0;
+  border-top:1px solid var(--border-1);border-bottom:1px solid var(--border-1);
+  background:var(--bg-muted);
+}
+.depth-mid .mp{
+  font-size:14px;font-weight:700;color:var(--text-1);
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  letter-spacing:-.01em;
+}
 
 /* 交易表单 — VALR 终端风格 */
-.dir-tabs{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2);background:var(--bg-muted);border:1px solid var(--border-1);border-radius:var(--r-sm);padding:var(--sp-1);margin-bottom:var(--sp-3)}
-.dir-tab{height:40px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-xs);font-size:15px;font-weight:600;cursor:pointer;color:var(--text-3);transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),box-shadow var(--dur-normal) var(--ease-out)}
+.dir-tabs{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  background:var(--bg-muted);
+  border:1px solid var(--border-1);border-radius:var(--r-sm);
+  padding:1px;margin-bottom:var(--sp-2);
+}
+.dir-tab{
+  height:36px;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-xs);
+  font-size:14px;font-weight:600;
+  cursor:pointer;color:var(--text-3);
+  transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
+  letter-spacing:.02em;
+}
 .dir-tab.buy.active{background:var(--success);color:#fff}
 .dir-tab.sell.active{background:var(--error);color:#fff}
 
-.type-row{display:flex;gap:0;margin-bottom:var(--sp-3)}
-.type-item{flex:1;height:36px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-3);font-weight:500;cursor:pointer;border-bottom:2px solid transparent}
+.type-row{display:flex;gap:0;margin-bottom:var(--sp-2);border-bottom:1px solid var(--border-1)}
+.type-item{
+  flex:1;height:32px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--text-4);font-weight:500;
+  cursor:pointer;border-bottom:2px solid transparent;
+  letter-spacing:.01em;
+}
 .type-item.active{color:var(--brand-main);border-bottom-color:var(--brand-main);font-weight:600}
 
-.field{margin-bottom:var(--sp-3)}
-.field-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-3);margin-bottom:var(--sp-1);font-weight:500}
+.field{margin-bottom:var(--sp-2)}
+.field-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);margin-bottom:var(--sp-1);font-weight:500;letter-spacing:.01em}
 .input-wrap{position:relative}
-.input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-4);pointer-events:none;font-weight:500}
+.input-unit{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  font-size:11px;color:var(--text-4);pointer-events:none;font-weight:500;
+  letter-spacing:.01em;
+}
 
-.pct-row{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--sp-2);margin-bottom:var(--sp-3)}
-.pct-chip{height:38px;display:flex;align-items:center;justify-content:center;background:var(--bg-muted);border:1px solid var(--border-1);border-radius:var(--r-xs);color:var(--text-3);font-size:12px;font-weight:500;cursor:pointer;transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out)}
+.pct-row{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--sp-1);margin-bottom:var(--sp-2)}
+.pct-chip{
+  height:32px;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-muted);border:1px solid var(--border-1);
+  border-radius:var(--r-xs);
+  color:var(--text-3);font-size:11px;font-weight:500;
+  cursor:pointer;
+  transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
+  letter-spacing:.01em;
+}
 .pct-chip:active{background:var(--brand-soft);border-color:var(--brand-main);color:var(--brand-main)}
 
-.asset-mini{background:var(--bg-muted);border:1px solid var(--border-1);border-radius:var(--r-sm);padding:var(--sp-3) var(--sp-4);display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-3)}
-.asset-mini .bal{font-size:15px;font-weight:700;color:var(--text-1)}
-.asset-mini .bal small{font-size:11px;color:var(--text-4);font-weight:500;margin-left:4px}
+.asset-mini{
+  background:var(--bg-muted);border:1px solid var(--border-1);
+  border-radius:var(--r-sm);padding:var(--sp-2) var(--sp-3);
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-2);
+}
+.asset-mini .bal{
+  font-size:14px;font-weight:700;color:var(--text-1);
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.asset-mini .bal small{font-size:10px;color:var(--text-4);font-weight:500;margin-left:3px;font-family:'Inter',sans-serif}
 
-.submit{width:100%;height:48px;border:none;border-radius:var(--r-sm);font-size:15px;font-weight:700;color:#fff;cursor:pointer;transition:filter var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-bounce),box-shadow var(--dur-normal) var(--ease-out)}
+.submit{
+  width:100%;height:44px;border:none;border-radius:var(--r-sm);
+  font-size:14px;font-weight:700;color:#fff;
+  cursor:pointer;letter-spacing:.03em;
+  transition:filter var(--dur-fast) var(--ease-out);
+}
 .submit.buy{background:var(--success)}
 .submit.sell{background:var(--error)}
-.submit:active{filter:brightness(.92)}
+.submit:active{filter:brightness(.9)}
 
-/* 委托订单 */
+/* 委托订单 — 终端表格风格 */
 .orders-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.orders-inner{min-width:540px}
+.orders-inner{min-width:500px}
 .o-grid{display:grid;grid-template-columns:.9fr 1.1fr 1.2fr 1.4fr .9fr;align-items:center}
-.o-head{font-size:11px;color:var(--text-4);padding:var(--sp-2) var(--sp-2);border-bottom:1px solid var(--border-1);text-align:center;font-weight:500;background:var(--bg-muted)}
-.o-row{padding:var(--sp-3) var(--sp-2);border-bottom:1px solid var(--border-1);font-size:12px;text-align:center}
+.o-head{
+  font-size:10px;color:var(--text-4);padding:var(--sp-1) var(--sp-2);
+  border-bottom:1px solid var(--border-1);text-align:center;font-weight:500;
+  background:var(--bg-muted);letter-spacing:.02em;text-transform:uppercase;
+}
+.o-row{
+  padding:var(--sp-2) var(--sp-2);border-bottom:1px solid var(--border-1);
+  font-size:11px;text-align:center;letter-spacing:0;
+}
 .o-row:last-child{border-bottom:none}
 .o-row .t-buy{color:var(--success);font-weight:600}
 .o-row .t-sell{color:var(--error);font-weight:600}
-.o-row .v{color:var(--text-1);font-weight:600;font-family:"JetBrains Mono",ui-monospace,monospace}
-.o-cancel{color:var(--text-3);font-size:11px;border:1px solid var(--border-2);border-radius:var(--r-xs);padding:4px 10px;display:inline-block;cursor:pointer;font-weight:500}
+.o-row .v{
+  color:var(--text-1);font-weight:600;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.o-cancel{
+  color:var(--text-3);font-size:10px;
+  border:1px solid var(--border-2);border-radius:var(--r-xs);
+  padding:3px 8px;display:inline-block;cursor:pointer;font-weight:500;
+  letter-spacing:.01em;
+}
 .o-cancel:active{border-color:var(--error);color:var(--error)}
 .o-time{color:var(--text-4);line-height:1.4}
-.empty{padding:var(--sp-8) 0;text-align:center;color:var(--text-4);font-size:12px}
+.empty{padding:var(--sp-6) 0;text-align:center;color:var(--text-4);font-size:11px}
 
-/* 资产概览小卡 */
-.asset-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2)}
-.asset-item{background:var(--bg-muted);border-radius:var(--r-sm);padding:var(--sp-3)}
-.asset-item .name{font-size:11px;color:var(--text-4);font-weight:500}
-.asset-item .val{font-size:16px;font-weight:700;color:var(--text-1);margin-top:4px;font-family:"JetBrains Mono",ui-monospace,monospace}
-.asset-item .sub{font-size:10px;color:var(--text-4);margin-top:2px}
+/* 资产概览 */
+.asset-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-1)}
+.asset-item{
+  background:var(--bg-muted);border-radius:var(--r-sm);padding:var(--sp-2);
+  border:1px solid var(--border-1);
+}
+.asset-item .name{font-size:10px;color:var(--text-4);font-weight:500;letter-spacing:.01em}
+.asset-item .val{
+  font-size:14px;font-weight:700;color:var(--text-1);margin-top:2px;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;letter-spacing:0;
+}
+.asset-item .sub{font-size:9px;color:var(--text-4);margin-top:1px;letter-spacing:.01em}
 
 /* =========================================================
-   理财页 — 深色收益 Hero（反差感）
+   理财页
    ========================================================= */
-.earn-hero{background:linear-gradient(135deg,#0F172A 0%,#1E293B 100%);border-radius:var(--r-lg);padding:var(--sp-5) var(--sp-4);color:#fff;position:relative;overflow:hidden}
+.earn-hero{
+  background:linear-gradient(135deg,#0F172A 0%,#1E293B 100%);
+  border-radius:var(--r-md);padding:var(--sp-4);color:#fff;
+  position:relative;overflow:hidden;border:1px solid var(--border-1);
+}
 [data-theme="dark"] .earn-hero{background:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-700) 100%)}
-.eh-label{font-size:12px;opacity:.85}
-.eh-apy{font-size:32px;font-weight:800;letter-spacing:-.02em;margin-top:4px}
-.eh-sub{font-size:12px;opacity:.8;margin-top:4px}
-.eh-btn{height:38px;padding:0 18px;border-radius:var(--r-sm);background:var(--brand-500);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;margin-top:var(--sp-3)}
-.eh-btn:active{filter:brightness(.95)}
+.eh-label{font-size:10px;opacity:.8;letter-spacing:.02em;text-transform:uppercase;font-weight:500}
+.eh-apy{
+  font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:3px;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+.eh-sub{font-size:11px;opacity:.8;margin-top:3px;letter-spacing:.01em}
+.eh-btn{
+  height:34px;padding:0 14px;border-radius:var(--r-sm);
+  background:var(--brand-500);color:#fff;border:none;
+  font-size:12px;font-weight:600;cursor:pointer;margin-top:var(--sp-2);
+  letter-spacing:.01em;
+}
+.eh-btn:active{filter:brightness(.93)}
 
 /* =========================================================
-   资产页 — 分布条形 + 走势
+   资产页
    ========================================================= */
-.dist-bars{display:flex;flex-direction:column;gap:var(--sp-3)}
-.di-top{display:flex;justify-content:space-between;font-size:12px;color:var(--text-2);font-weight:500;margin-bottom:var(--sp-2)}
-.di-bar{height:8px;border-radius:var(--r-pill);background:var(--bg-muted);overflow:hidden}
-.di-bar-fill{height:100%;border-radius:var(--r-pill);transition:width var(--dur-slow) var(--ease-in-out)}
-#assetChart{height:200px}
+.dist-bars{display:flex;flex-direction:column;gap:var(--sp-2)}
+.di-top{display:flex;justify-content:space-between;font-size:11px;color:var(--text-2);font-weight:500;margin-bottom:var(--sp-1);letter-spacing:.01em}
+.di-bar{height:6px;border-radius:var(--r-xs);background:var(--bg-muted);overflow:hidden}
+.di-bar-fill{height:100%;border-radius:var(--r-xs);transition:width var(--dur-slow) var(--ease-in-out)}
+#assetChart{height:180px}
 
 /* =========================================================
-   底部导航
+   底部导航 — VALR 紧凑风格
    ========================================================= */
-.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--bg-surface);border-top:1px solid var(--border-1);padding-bottom:var(--sab);box-shadow:0 -4px 10px rgba(15,23,42,.04)}
+.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:var(--bg-surface);
+  border-top:1px solid var(--border-1);
+  padding-bottom:var(--sab);
+}
 .tabbar-inner{display:grid;grid-template-columns:repeat(5,1fr);max-width:640px;margin:0 auto}
-.tab-item{height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--text-4);font-size:10px;cursor:pointer;font-weight:500}
+.tab-item{
+  height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  color:var(--text-4);font-size:9px;cursor:pointer;font-weight:500;
+  letter-spacing:.02em;
+}
 .tab-item.active{color:var(--brand-main);font-weight:600}
-.tab-item svg{width:22px;height:22px}
+.tab-item svg{width:20px;height:20px}
 
 /* =========================================================
-   桌面端 ≥992px
+   桌面端 ≥992px — VALR 终端布局
    ========================================================= */
 @media (min-width:992px){
   .app{padding-bottom:0;display:flex}
-  .sidebar{display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;width:232px;background:var(--bg-surface);border-right:1px solid var(--border-1);z-index:40}
-  .brand{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-5) var(--sp-5) var(--sp-4);border-bottom:1px solid var(--border-1)}
-  .brand .logo{width:36px;height:36px;border-radius:var(--r-sm);background:linear-gradient(135deg,var(--brand-500),var(--brand-700));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px}
-  .brand b{font-size:16px;color:var(--text-1);letter-spacing:-.01em}
-  .brand small{display:block;font-size:11px;color:var(--text-4);margin-top:2px}
-  .side-nav{margin-top:var(--sp-2);flex:1;padding:var(--sp-2) 0}
-  .side-nav a{display:flex;align-items:center;gap:var(--sp-3);height:44px;padding:0 var(--sp-5);color:var(--text-3);font-size:14px;text-decoration:none;border-left:3px solid transparent;font-weight:500;transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out)}
+  .sidebar{
+    display:flex;flex-direction:column;
+    position:fixed;left:0;top:0;bottom:0;
+    width:208px;
+    background:var(--bg-surface);
+    border-right:1px solid var(--border-1);
+    z-index:40;
+  }
+  .brand{
+    display:flex;align-items:center;gap:var(--sp-3);
+    padding:var(--sp-4);border-bottom:1px solid var(--border-1);
+  }
+  .brand .logo{
+    width:32px;height:32px;border-radius:var(--r-sm);
+    background:linear-gradient(135deg,var(--brand-500),var(--brand-700));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;color:#fff;font-size:14px;
+  }
+  .brand b{font-size:14px;color:var(--text-1);letter-spacing:-.01em;font-weight:700}
+  .brand small{display:block;font-size:9px;color:var(--text-4);margin-top:1px;letter-spacing:.02em;text-transform:uppercase;font-weight:500}
+  .side-nav{margin-top:var(--sp-1);flex:1;padding:var(--sp-1) 0}
+  .side-nav a{
+    display:flex;align-items:center;gap:var(--sp-3);
+    height:38px;padding:0 var(--sp-4);
+    color:var(--text-4);font-size:13px;text-decoration:none;
+    border-left:2px solid transparent;font-weight:500;
+    transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);
+    letter-spacing:.01em;
+  }
   .side-nav a:hover{background:var(--bg-muted);color:var(--text-1)}
-  .side-nav a.active{color:var(--brand-main);background:var(--brand-soft);border-left-color:var(--brand-main);font-weight:600}
-  .side-nav svg{width:20px;height:20px}
-  .side-foot{padding:var(--sp-4)}
-  .theme-seg{display:flex;background:var(--bg-muted);border:1px solid var(--border-1);border-radius:var(--r-sm);padding:3px;gap:2px}
-  .theme-opt{flex:1;text-align:center;font-size:11px;padding:8px 0;border-radius:var(--r-xs);color:var(--text-3);cursor:pointer;font-weight:500}
+  .side-nav a.active{color:var(--brand-main);background:var(--bg-highlight);border-left-color:var(--brand-main);font-weight:600}
+  .side-nav svg{width:18px;height:18px}
+  .side-foot{padding:var(--sp-3);border-top:1px solid var(--border-1)}
+  .theme-seg{
+    display:flex;background:var(--bg-muted);
+    border:1px solid var(--border-1);border-radius:var(--r-sm);
+    padding:2px;gap:1px;
+  }
+  .theme-opt{
+    flex:1;text-align:center;font-size:10px;padding:6px 0;
+    border-radius:var(--r-xs);color:var(--text-4);cursor:pointer;font-weight:500;
+    letter-spacing:.01em;
+  }
   .theme-opt.active{background:var(--brand-main);color:#fff;font-weight:600}
 
-  .main{flex:1;margin-left:232px;min-width:0}
+  .main{flex:1;margin-left:208px;min-width:0}
   .tabbar{display:none}
-  .body{padding:var(--sp-6) var(--sp-8) var(--sp-10)}
+  .body{padding:var(--sp-4);gap:var(--sp-4);max-width:1600px}
 
-  /* 交易页桌面：左大右小 */
-  .trade-layout{display:grid;grid-template-columns:1fr 360px;gap:var(--sp-4);align-items:start}
-  .trade-col{display:flex;flex-direction:column;gap:var(--sp-4)}
+  /* VALR 终端交易布局：左大右窄 */
+  .trade-layout{
+    display:grid;grid-template-columns:1fr 320px;gap:var(--sp-3);align-items:start;
+  }
+  .trade-col{display:flex;flex-direction:column;gap:var(--sp-3)}
   .mobile-only{display:none}
   .desktop-only{display:block}
-  #kline{height:400px}
+  #kline{height:420px}
 
-  /* 首页桌面：三栏 */
-  .home-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4)}
-  .home-col{display:flex;flex-direction:column;gap:var(--sp-4)}
+  /* 首页桌面 */
+  .home-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3)}
+  .home-col{display:flex;flex-direction:column;gap:var(--sp-3)}
 }
 
 @media (max-width:991px){
@@ -469,9 +776,9 @@ body{
   .desktop-only{display:none}
 }
 @media (min-width:768px) and (max-width:991px){
-  .trade-layout{display:grid;grid-template-columns:1fr 340px;gap:var(--sp-3)}
-  .trade-col{display:flex;flex-direction:column;gap:var(--sp-3)}
-  #kline{height:360px}
+  .trade-layout{display:grid;grid-template-columns:1fr 300px;gap:var(--sp-2)}
+  .trade-col{display:flex;flex-direction:column;gap:var(--sp-2)}
+  #kline{height:340px}
 }
 </style>
 </head>
@@ -489,7 +796,7 @@ body{
       <div class="theme-seg" id="themeSeg">
         <div class="theme-opt" data-mode="light">亮色</div>
         <div class="theme-opt" data-mode="dark">暗色</div>
-        <div class="theme-opt" data-mode="system">跟随系统</div>
+        <div class="theme-opt" data-mode="system">跟随</div>
       </div>
     </div>
   </aside>
@@ -502,9 +809,9 @@ body{
 
         <!-- Hero 卡 + 统计格 -->
         <section class="hero-card">
-          <div class="hero-label">总资产估值</div>
+          <div class="hero-label">Total Assets</div>
           <div class="hero-total num">$46,551.55</div>
-          <div class="hero-pnl up num">今日 +$1,284.60（+3.82%）· 累计 +$2,841</div>
+          <div class="hero-pnl up num">Today +$1,284.60 (+3.82%) · Total +$2,841</div>
           <div class="hero-btns">
             <button class="btn-primary" onclick="alert('原型：充值')">充值</button>
             <button class="btn-secondary" onclick="alert('原型：提现')">提现</button>
@@ -514,13 +821,13 @@ body{
 
         <!-- 四格统计 -->
         <div class="stat-grid">
-          <div class="stat-card"><div class="stat-label">24h 交易额</div><div class="stat-value num">$1.24亿</div><div class="stat-sub up">+12.4%</div></div>
-          <div class="stat-card"><div class="stat-label">活跃委托</div><div class="stat-value num">4</div><div class="stat-sub">BTC 2 · ETH 1 · USDT 1</div></div>
-          <div class="stat-card"><div class="stat-label">持仓币种</div><div class="stat-value num">3</div><div class="stat-sub">BTC · ETH · USDT</div></div>
-          <div class="stat-card"><div class="stat-label">理财持仓</div><div class="stat-value num">$8,420</div><div class="stat-sub up">年化 8.2%</div></div>
+          <div class="stat-card"><div class="stat-label">24h Volume</div><div class="stat-value num">$1.24亿</div><div class="stat-sub up">+12.4%</div></div>
+          <div class="stat-card"><div class="stat-label">Open Orders</div><div class="stat-value num">4</div><div class="stat-sub">BTC 2 · ETH 1 · USDT 1</div></div>
+          <div class="stat-card"><div class="stat-label">Coins</div><div class="stat-value num">3</div><div class="stat-sub">BTC · ETH · USDT</div></div>
+          <div class="stat-card"><div class="stat-label">Earn Balance</div><div class="stat-value num">$8,420</div><div class="stat-sub up">APY 8.2%</div></div>
         </div>
 
-        <!-- 快捷入口（横滑） -->
+        <!-- 快捷入口 -->
         <section>
           <div class="sec-head"><div class="sec-title">快捷操作</div></div>
           <div class="quick-scroll">
@@ -553,8 +860,8 @@ body{
             <section>
               <div class="sec-head"><div class="sec-title">推荐收益</div><div class="sec-more" data-page="wealth">全部理财</div></div>
               <div class="rec-grid">
-                <div class="rec-card"><div class="rec-head"><div class="rec-name">USDT 30天定期</div><div class="rec-tag">新手专享</div></div><div class="rec-apy num">12.00%<small>年化</small></div><div class="rec-meta">30天 · 100 USDT 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
-                <div class="rec-card"><div class="rec-head"><div class="rec-name">USDT 灵活宝</div><div class="rec-tag tag-info">随存随取</div></div><div class="rec-apy num">8.20%<small>年化</small></div><div class="rec-meta">0.01 USDT 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
+                <div class="rec-card"><div class="rec-head"><div class="rec-name">USDT 30天定期</div><div class="rec-tag">新手专享</div></div><div class="rec-apy num">12.00%<small>APY</small></div><div class="rec-meta">30天 · 100 USDT 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
+                <div class="rec-card"><div class="rec-head"><div class="rec-name">USDT 灵活宝</div><div class="rec-tag tag-info">随存随取</div></div><div class="rec-apy num">8.20%<small>APY</small></div><div class="rec-meta">0.01 USDT 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
               </div>
             </section>
           </div>
@@ -579,7 +886,7 @@ body{
         </section>
       </div>
 
-      <!-- ============ 交易（TradingView 终端逻辑） ============ -->
+      <!-- ============ 交易（TradingView 终端布局） ============ -->
       <div class="page" id="page-trade">
 
         <!-- 移动端顶部行情条 -->
@@ -588,12 +895,12 @@ body{
             <div class="mt-coin">₿</div>
             <div class="mt-info">
               <div class="mt-pair" id="pairBtn">BTC / USDT <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="vertical-align:-1px"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-              <div class="mt-sub">Bitcoin · 现货交易</div>
+              <div class="mt-sub">Bitcoin · Spot</div>
             </div>
             <div class="mt-actions">
               <div class="mt-icon" id="themeBtn"></div>
               <div class="mt-icon active" id="starBtn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2z"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2z"/></svg>
               </div>
             </div>
           </div>
@@ -602,13 +909,13 @@ body{
             <span class="mt-chg up num" id="chgBadge">▲ +2.34%</span>
           </div>
           <div class="mt-stats">
-            <span>24h高<b id="hi24">68,420.00</b></span>
-            <span>24h低<b id="lo24">65,931.20</b></span>
-            <span>24h量<b id="vol24">12,847</b></span>
+            <span>24h High<b id="hi24">68,420.00</b></span>
+            <span>24h Low<b id="lo24">65,931.20</b></span>
+            <span>Vol<b id="vol24">12,847</b></span>
           </div>
         </div>
 
-        <!-- 移动端：K线 / 表单 / 委托 三段切换 -->
+        <!-- 移动端 panel 切换 -->
         <div class="mobile-only trade-switch">
           <div class="ts-item active" data-panel="kline">图表</div>
           <div class="ts-item" data-panel="form">下单</div>
@@ -625,10 +932,10 @@ body{
               <div id="kline"></div>
             </section>
 
-            <!-- 盘口深度（桌面左栏，移动端隐藏） -->
+            <!-- 盘口深度（桌面左栏） -->
             <section class="card card-sm depth-card desktop-only">
-              <div class="sec-title sec-title-tight">盘口深度</div>
-              <div class="depth-head"><span>价格 (USDT)</span><span>数量 (BTC)</span></div>
+              <div class="sec-title sec-title-tight">Order Book</div>
+              <div class="depth-head"><span>Price (USDT)</span><span>Amount (BTC)</span></div>
               <div id="asks"></div>
               <div class="depth-mid">
                 <span class="mp num up-color" id="midPrice">67,842.50</span>
@@ -637,13 +944,13 @@ body{
               <div id="bids"></div>
             </section>
 
-            <!-- 当前委托（桌面左栏底，移动端独立卡） -->
+            <!-- 当前委托 -->
             <section class="card card-sm orders-card" id="panel-orders">
-              <div class="sec-title sec-title-tight">当前委托</div>
+              <div class="sec-title sec-title-tight">Open Orders</div>
               <div class="orders-scroll mt-tight">
                 <div class="orders-inner">
                   <div class="o-grid o-head">
-                    <span>方向</span><span>价格</span><span>数量</span><span>时间</span><span>操作</span>
+                    <span>Side</span><span>Price</span><span>Amount</span><span>Time</span><span>Action</span>
                   </div>
                   <div id="orderRows"></div>
                 </div>
@@ -685,16 +992,16 @@ body{
                 </div>
                 <div class="right-align">
                   <div class="t-caption">预计交易额</div>
-                  <div class="num muted-color" id="turnover" style="font-size:13px">-- USDT</div>
+                  <div class="num muted-color" id="turnover" style="font-size:12px">-- USDT</div>
                 </div>
               </div>
               <button class="submit buy" id="submitBtn">买入 BTC</button>
             </section>
 
-            <!-- 移动端盘口（隐藏在表单tab内显示） -->
+            <!-- 移动端盘口 -->
             <section class="card card-sm depth-card mobile-only" id="panel-form">
-              <div class="sec-title sec-title-tight">盘口深度</div>
-              <div class="depth-head"><span>价格</span><span>数量</span></div>
+              <div class="sec-title sec-title-tight">Order Book</div>
+              <div class="depth-head"><span>Price</span><span>Amount</span></div>
               <div id="asksMobile"></div>
               <div class="depth-mid">
                 <span class="mp num up-color" id="midPriceMobile">67,842.50</span>
@@ -703,13 +1010,13 @@ body{
             </section>
 
             <!-- 资产概览（桌面右列底） -->
-            <section class="card asset-card desktop-only">
-              <div class="sec-title mb-3">资产概览</div>
+            <section class="card card-sm asset-card desktop-only">
+              <div class="sec-title mb-3">Portfolio</div>
               <div class="asset-grid">
-                <div class="asset-item"><div class="name">USDT 可用</div><div class="val num">12,480.00</div><div class="sub num">冻结 500.00</div></div>
-                <div class="asset-item"><div class="name">BTC 可用</div><div class="val num">0.3842</div><div class="sub num">≈ $26,062</div></div>
-                <div class="asset-item"><div class="name">ETH 可用</div><div class="val num">2.1560</div><div class="sub num">≈ $7,524</div></div>
-                <div class="asset-item"><div class="name">今日盈亏</div><div class="val num up-color">+1,284</div><div class="sub num">+3.82%</div></div>
+                <div class="asset-item"><div class="name">USDT Available</div><div class="val num">12,480.00</div><div class="sub num">Frozen 500.00</div></div>
+                <div class="asset-item"><div class="name">BTC Available</div><div class="val num">0.3842</div><div class="sub num">≈ $26,062</div></div>
+                <div class="asset-item"><div class="name">ETH Available</div><div class="val num">2.1560</div><div class="sub num">≈ $7,524</div></div>
+                <div class="asset-item"><div class="name">Today PnL</div><div class="val num up-color">+1,284</div><div class="sub num">+3.82%</div></div>
               </div>
             </section>
           </div>
@@ -719,7 +1026,6 @@ body{
 
       <!-- ============ 理财 ============ -->
       <div class="page" id="page-wealth">
-        <!-- 深色收益 Hero（与首页蓝色顶条形成反差） -->
         <section class="earn-hero">
           <div class="eh-label">本月理财收益</div>
           <div class="eh-apy num">+$312.48</div>
@@ -730,21 +1036,20 @@ body{
         <section class="card card-lg">
           <div class="sec-head"><div class="sec-title">全部理财产品</div></div>
           <div class="rec-grid">
-            <div class="rec-card"><div class="rec-head"><div class="rec-name">USDT 30天定期</div><div class="rec-tag">新手专享</div></div><div class="rec-apy num">12.00%<small>年化</small></div><div class="rec-meta">30天 · 100 USDT 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
-            <div class="rec-card"><div class="rec-head"><div class="rec-name">USDT 灵活宝</div><div class="rec-tag tag-info">随存随取</div></div><div class="rec-apy num">8.20%<small>年化</small></div><div class="rec-meta">0.01 USDT 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
-            <div class="rec-card"><div class="rec-head"><div class="rec-name">BTC 定期 90天</div><div class="rec-tag tag-neutral">定期</div></div><div class="rec-apy num">5.00%<small>年化</small></div><div class="rec-meta">90天 · 0.001 BTC 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
-            <div class="rec-card"><div class="rec-head"><div class="rec-name">ETH 链上质押</div><div class="rec-tag tag-chain">链上</div></div><div class="rec-apy num">4.20%<small>年化</small></div><div class="rec-meta">灵活赎回 · 0.01 ETH 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
+            <div class="rec-card"><div class="rec-head"><div class="rec-name">USDT 30天定期</div><div class="rec-tag">新手专享</div></div><div class="rec-apy num">12.00%<small>APY</small></div><div class="rec-meta">30天 · 100 USDT 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
+            <div class="rec-card"><div class="rec-head"><div class="rec-name">USDT 灵活宝</div><div class="rec-tag tag-info">随存随取</div></div><div class="rec-apy num">8.20%<small>APY</small></div><div class="rec-meta">0.01 USDT 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
+            <div class="rec-card"><div class="rec-head"><div class="rec-name">BTC 定期 90天</div><div class="rec-tag tag-neutral">定期</div></div><div class="rec-apy num">5.00%<small>APY</small></div><div class="rec-meta">90天 · 0.001 BTC 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
+            <div class="rec-card"><div class="rec-head"><div class="rec-name">ETH 链上质押</div><div class="rec-tag tag-chain">链上</div></div><div class="rec-apy num">4.20%<small>APY</small></div><div class="rec-meta">灵活赎回 · 0.01 ETH 起投</div><button class="rec-btn" onclick="alert('原型：申购')">立即申购</button></div>
           </div>
         </section>
       </div>
 
       <!-- ============ 资产 ============ -->
       <div class="page" id="page-asset">
-        <!-- 同首页 Hero 卡结构，蓝顶条 -->
         <section class="hero-card">
-          <div class="hero-label">总资产估值</div>
+          <div class="hero-label">Total Assets</div>
           <div class="hero-total num">$46,551.55</div>
-          <div class="hero-pnl up num">今日 +$1,284.60（+3.82%）</div>
+          <div class="hero-pnl up num">Today +$1,284.60 (+3.82%)</div>
           <div class="hero-btns">
             <button class="btn-primary" onclick="alert('原型：充值')">充值</button>
             <button class="btn-secondary" onclick="alert('原型：提现')">提现</button>
@@ -752,14 +1057,12 @@ body{
           </div>
         </section>
 
-        <!-- 资产走势图 -->
         <section class="card card-lg">
           <div class="sec-head"><div class="sec-title">资产走势</div></div>
           <div class="tf-row" id="assetTfRow"></div>
           <div id="assetChart"></div>
         </section>
 
-        <!-- 资产分布（横向柱状图，更直观） -->
         <section class="card card-lg">
           <div class="sec-head"><div class="sec-title">资产分布</div></div>
           <div class="dist-bars">
@@ -769,7 +1072,6 @@ body{
           </div>
         </section>
 
-        <!-- 资产明细 -->
         <section class="card card-sm">
           <div class="sec-head sec-head-tight"><div class="sec-title">资产明细</div></div>
           <div class="orders-scroll mt-tight">
